@@ -1,5 +1,7 @@
 #include "CSVReader.h"
+#include "Weather.h"
 #include "WeatherEntry.h"
+#include <exception>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -22,8 +24,10 @@ std::vector<WeatherEntry> CSVReader::readCSV(std::string csvFilename)
         while(std::getline(csvFile, line))
         {
             try {
-                WeatherEntry woe = stringsToWE(tokenise(line, ','));
-                entries.push_back(woe);
+              std::vector<WeatherEntry> woe = stringsToWE(tokenise(line, ','));
+              for (const WeatherEntry& entry : woe) {
+                entries.push_back(entry); 
+              }
             }catch(const std::exception& e)
             {
                 std::cout << "CSVReader::readCSV bad data"  << std::endl;
@@ -53,10 +57,24 @@ std::vector<std::string> CSVReader::tokenise(std::string csvLine, char separator
    return tokens; 
 }
 
-WeatherEntry CSVReader::stringsToWE(std::vector<std::string> strings){
-  for (range-declaration : range-expression) {
-  
+std::vector<WeatherEntry> CSVReader::stringsToWE(std::vector<std::string> strings){
+  std::vector<WeatherEntry> entries;
+
+  for (int i = 1; i < strings.size(); i++) {
+    try {
+      WeatherEntryType region = WeatherEntry::mapFromTokenToRegion(i);
+      double temperature = std::stod(strings[i]);
+      std::string timeframe = strings[0];
+
+      WeatherEntry entry{temperature, timeframe, region};
+      entries.push_back(entry);
+    } catch (const std::exception& e) {
+      std::cout << "CSVReader::stringsToW - error processing index " << i << " on timeframe: " << strings[0];
+      continue;
+    }
   }
+
+  return entries;
 }
 
 OrderBookEntry CSVReader::stringsToOBE(std::vector<std::string> tokens)

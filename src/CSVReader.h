@@ -23,5 +23,5 @@ class CSVReader
     private:
      static OrderBookEntry stringsToOBE(std::vector<std::string> strings);
 
-     static WeatherEntry stringsToWE(std::vector<std::string> strings);
+     static std::vector<WeatherEntry> stringsToWE(std::vector<std::string> strings);
 };

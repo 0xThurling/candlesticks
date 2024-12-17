@@ -12,9 +12,6 @@ MerkelMain::MerkelMain()
 void MerkelMain::init()
 {
     int input;
-    currentTime = orderBook.getEarliestTime();
-
-    wallet.insertCurrency("BTC", 10);
 
     while(true)
     {
@@ -29,20 +26,12 @@ void MerkelMain::printMenu()
 {
     // 1 print help
     std::cout << "1: Print help " << std::endl;
-    // 2 print exchange stats
-    std::cout << "2: Print exchange stats" << std::endl;
-    // 3 make an offer
-    std::cout << "3: Make an offer " << std::endl;
-    // 4 make a bid 
-    std::cout << "4: Make a bid " << std::endl;
-    // 5 print wallet
-    std::cout << "5: Print wallet " << std::endl;
+    // 2 print Weather for region
+    std::cout << "2: Print Weahter for region" << std::endl;
     // 6 continue   
     std::cout << "6: Continue " << std::endl;
 
     std::cout << "============== " << std::endl;
-
-    std::cout << "Current time is: " << currentTime << std::endl;
 }
 
 void MerkelMain::printHelp()
@@ -52,18 +41,6 @@ void MerkelMain::printHelp()
 
 void MerkelMain::printMarketStats()
 {
-    for (std::string const& p : orderBook.getKnownProducts())
-    {
-        std::cout << "Product: " << p << std::endl;
-        std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, 
-                                                                p, currentTime);
-        std::cout << "Asks seen: " << entries.size() << std::endl;
-        std::cout << "Max ask: " << OrderBook::getHighPrice(entries) << std::endl;
-        std::cout << "Min ask: " << OrderBook::getLowPrice(entries) << std::endl;
-
-
-
-    }
     // std::cout << "OrderBook contains :  " << orders.size() << " entries" << std::endl;
     // unsigned int bids = 0;
     // unsigned int asks = 0;
@@ -106,7 +83,6 @@ void MerkelMain::enterAsk()
             if (wallet.canFulfillOrder(obe))
             {
                 std::cout << "Wallet looks good. " << std::endl;
-                orderBook.insertOrder(obe);
             }
             else {
                 std::cout << "Wallet has insufficient funds . " << std::endl;
@@ -143,7 +119,6 @@ void MerkelMain::enterBid()
             if (wallet.canFulfillOrder(obe))
             {
                 std::cout << "Wallet looks good. " << std::endl;
-                orderBook.insertOrder(obe);
             }
             else {
                 std::cout << "Wallet has insufficient funds . " << std::endl;
@@ -163,24 +138,6 @@ void MerkelMain::printWallet()
 void MerkelMain::gotoNextTimeframe()
 {
     std::cout << "Going to next time frame. " << std::endl;
-    for (std::string p : orderBook.getKnownProducts())
-    {
-        std::cout << "matching " << p << std::endl;
-        std::vector<OrderBookEntry> sales =  orderBook.matchAsksToBids(p, currentTime);
-        std::cout << "Sales: " << sales.size() << std::endl;
-        for (OrderBookEntry& sale : sales)
-        {
-            std::cout << "Sale price: " << sale.price << " amount " << sale.amount << std::endl; 
-            if (sale.username == "simuser")
-            {
-                // update the wallet
-                wallet.processSale(sale);
-            }
-        }
-        
-    }
-
-    currentTime = orderBook.getNextTime(currentTime);
 }
  
 int MerkelMain::getUserOption()

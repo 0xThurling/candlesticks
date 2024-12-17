@@ -7,9 +7,7 @@
 
 /** construct, reading a csv data file */
 OrderBook::OrderBook(std::string filename)
-{
-    orders = CSVReader::readCSV(filename);
-}
+{}
 
 /** return vector of all know products in the dataset*/
 std::vector<std::string> OrderBook::getKnownProducts()
