@@ -1,6 +1,9 @@
 #include "CSVReader.h"
+#include "WeatherEntry.h"
 #include <iostream>
 #include <fstream>
+#include <string>
+#include <vector>
 
 
 CSVReader::CSVReader()
@@ -8,9 +11,9 @@ CSVReader::CSVReader()
 
 }
 
-std::vector<OrderBookEntry> CSVReader::readCSV(std::string csvFilename)
+std::vector<WeatherEntry> CSVReader::readCSV(std::string csvFilename)
 {
-    std::vector<OrderBookEntry> entries;
+    std::vector<WeatherEntry> entries;
 
     std::ifstream csvFile{csvFilename};
     std::string line;
@@ -19,8 +22,8 @@ std::vector<OrderBookEntry> CSVReader::readCSV(std::string csvFilename)
         while(std::getline(csvFile, line))
         {
             try {
-                OrderBookEntry obe = stringsToOBE(tokenise(line, ','));
-                entries.push_back(obe);
+                WeatherEntry woe = stringsToWE(tokenise(line, ','));
+                entries.push_back(woe);
             }catch(const std::exception& e)
             {
                 std::cout << "CSVReader::readCSV bad data"  << std::endl;
@@ -48,6 +51,12 @@ std::vector<std::string> CSVReader::tokenise(std::string csvLine, char separator
     }while(end > 0);
 
    return tokens; 
+}
+
+WeatherEntry CSVReader::stringsToWE(std::vector<std::string> strings){
+  for (range-declaration : range-expression) {
+  
+  }
 }
 
 OrderBookEntry CSVReader::stringsToOBE(std::vector<std::string> tokens)
