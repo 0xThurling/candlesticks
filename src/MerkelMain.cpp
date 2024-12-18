@@ -1,6 +1,7 @@
 #include "MerkelMain.h"
 #include <iostream>
 #include <ostream>
+#include <string>
 #include <vector>
 #include "OrderBookEntry.h"
 #include "CSVReader.h"
@@ -64,14 +65,16 @@ void MerkelMain::printMarketStats()
 }
 
 void MerkelMain::printWeatherStats() {
-  std::cout << "Enter the region: " << std::endl;
+  std::cout << "Enter the region and year (FR,1990): " << std::endl;
   std::string input;
   std::getline(std::cin, input);
 
-  try {
-    WeatherEntryType region = WeatherEntry::mapFromInputToRegion(input);
+  std::vector<std::string> tokens = CSVReader::tokenise(input, ',');
 
-    std::vector<WeatherEntry> points = weather.getWeatherEntries(WeatherEntryType::AT, "1980");
+  try {
+    WeatherEntryType region = WeatherEntry::mapFromInputToRegion(tokens[0]);
+
+    std::vector<WeatherEntry> points = weather.getWeatherEntries(region, tokens[1]);
 
     std::cout << points.size() << std::endl;
   } catch (const std::exception& e) {
