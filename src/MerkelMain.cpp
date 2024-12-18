@@ -64,12 +64,19 @@ void MerkelMain::printMarketStats()
 }
 
 void MerkelMain::printWeatherStats() {
+  std::cout << "Enter the region: " << std::endl;
   std::string input;
   std::getline(std::cin, input);
 
-  std::vector<WeatherEntry> points = weather.getWeatherEntries(WeatherEntryType::AT, "1980");
+  try {
+    WeatherEntryType region = WeatherEntry::mapFromInputToRegion(input);
 
-  std::cout << points.size() << std::endl;
+    std::vector<WeatherEntry> points = weather.getWeatherEntries(WeatherEntryType::AT, "1980");
+
+    std::cout << points.size() << std::endl;
+  } catch (const std::exception& e) {
+    std::cout << "MerkelMain::printWeatherStats error when mapping and retrieving entries" << std::endl;
+  }
 }
 
 void MerkelMain::enterAsk()
