@@ -35,12 +35,12 @@ std::string Weather::goToNextTimeFrame(std::string currentTime) {
 
   auto t = std::find_if(entryPoints.begin(), entryPoints.end(), 
       [&currentYear](const WeatherEntry& entry){
-        return entry.timeframe == std::to_string(currentYear++);
+        return entry.timeframe.find(std::to_string(++currentYear)) != std::string::npos;
       });
 
-  if (t == entryPoints.end()) {
-    return getEarliestTime();
+  if (t != entryPoints.end()) {
+     return t->timeframe;
   }
 
-  return std::to_string(currentYear++);
+  return getEarliestTime();
 }

@@ -1,5 +1,6 @@
 #include "MerkelMain.h"
 #include <iostream>
+#include <iterator>
 #include <ostream>
 #include <string>
 #include <vector>
@@ -15,6 +16,10 @@ MerkelMain::MerkelMain()
 void MerkelMain::init()
 {
     int input;
+
+    currentTime = weather.getEarliestTime();
+    
+    std::cout << currentTime << std::endl;
 
     while(true)
     {
@@ -163,6 +168,11 @@ void MerkelMain::printWallet()
 void MerkelMain::gotoNextTimeframe()
 {
     std::cout << "Going to next time frame. " << std::endl;
+    std::vector<std::string> tokens = CSVReader::tokenise(currentTime, '-');
+
+    currentTime = weather.goToNextTimeFrame(tokens[0]);
+
+    std::cout << currentTime << std::endl;
 }
  
 int MerkelMain::getUserOption()
