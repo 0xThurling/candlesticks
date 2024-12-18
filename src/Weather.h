@@ -14,6 +14,12 @@ class Weather{
     std::string getEarliestTime();
 
     std::string goToNextTimeFrame(std::string currentTime);
+
+    static double getHighestTemp(std::vector<WeatherEntry>& currentTimeEntries);
+    static double getLowestTemp(std::vector<WeatherEntry>& currentTimeEntries);
+    static double getClosingTemp(std::vector<WeatherEntry>& currentTimeEntries);
+    static double getOpeningTemp(std::vector<WeatherEntry>& previousTimeEntries);
+
   private:
     std::vector<WeatherEntry> entryPoints;
 };
