@@ -76,17 +76,25 @@ void MerkelMain::printWeatherStats() {
 
   std::vector<std::string> tokens = CSVReader::tokenise(input, ',');
 
+  std::vector<WeatherEntry> currentYearEntries;
+  std::vector<WeatherEntry> previousYearEntries;
+
   try {
     WeatherEntryType region = WeatherEntry::mapFromInputToRegion(tokens[0]);
 
-    std::vector<WeatherEntry> points = weather.getWeatherEntries(region, tokens[1]);
+    int previousYear = std::stoi(tokens[1]) - 1;
 
-    std::cout << points.size() << std::endl;
+    std::cout << previousYear << std::endl;
+
+    currentYearEntries  = weather.getWeatherEntries(region, tokens[1]);
+    previousYearEntries = weather.getWeatherEntries(region, std::to_string(previousYear));
+
   } catch (const std::exception& e) {
     std::cout << "MerkelMain::printWeatherStats error when mapping and retrieving entries" << std::endl;
   }
 
-
+  std::cout << currentYearEntries.begin()->timeframe << std::endl;
+  std::cout << previousYearEntries.begin()->timeframe << std::endl;
 }
 
 void MerkelMain::enterAsk()
