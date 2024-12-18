@@ -3,7 +3,7 @@
 #include <cctype>
 #include <string>
 
-const std::map<std::string, WeatherEntryType> WeatherEntry::weatherRegionMap = {
+const std::map<std::string, WeatherEntryType> weatherRegionMap = {
  {"AT", WeatherEntryType::AT},
  {"BE", WeatherEntryType::BE},
  {"BG", WeatherEntryType::BG},
