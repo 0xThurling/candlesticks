@@ -2,6 +2,7 @@
 #include "CSVReader.h"
 #include "WeatherEntry.h"
 
+#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -23,4 +24,23 @@ std::vector<WeatherEntry> Weather::getWeatherEntries(WeatherEntryType region,
   }
   
   return filtered_entries;
+}
+
+std::string Weather::getEarliestTime() {
+  return entryPoints.begin()->timeframe;
+}
+
+std::string Weather::goToNextTimeFrame(std::string currentTime) {
+  int currentYear = std::stoi(currentTime);
+
+  auto t = std::find_if(entryPoints.begin(), entryPoints.end(), 
+      [&currentYear](const WeatherEntry& entry){
+        return entry.timeframe == std::to_string(currentYear++);
+      });
+
+  if (t == entryPoints.end()) {
+    return getEarliestTime();
+  }
+
+  return std::to_string(currentYear++);
 }

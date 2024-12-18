@@ -10,6 +10,10 @@ class Weather{
 
     /** Gets the weather entries for a region based on the filters */
     std::vector<WeatherEntry> getWeatherEntries(WeatherEntryType region, std::string timestamp);
+
+    std::string getEarliestTime();
+
+    std::string goToNextTimeFrame(std::string currentTime);
   private:
     std::vector<WeatherEntry> entryPoints;
 };

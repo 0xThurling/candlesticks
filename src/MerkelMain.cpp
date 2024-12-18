@@ -80,6 +80,8 @@ void MerkelMain::printWeatherStats() {
   } catch (const std::exception& e) {
     std::cout << "MerkelMain::printWeatherStats error when mapping and retrieving entries" << std::endl;
   }
+
+
 }
 
 void MerkelMain::enterAsk()
