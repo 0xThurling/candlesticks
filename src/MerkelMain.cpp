@@ -1,5 +1,6 @@
 #include "MerkelMain.h"
 #include <iostream>
+#include <ostream>
 #include <vector>
 #include "OrderBookEntry.h"
 #include "CSVReader.h"
@@ -28,7 +29,7 @@ void MerkelMain::printMenu()
     // 1 print help
     std::cout << "1: Print help " << std::endl;
     // 2 print Weather for region
-    std::cout << "2: Print Weahter for region" << std::endl;
+    std::cout << "2: Print Weather for region" << std::endl;
  
 
     // 6 continue   
@@ -63,7 +64,12 @@ void MerkelMain::printMarketStats()
 }
 
 void MerkelMain::printWeatherStats() {
+  std::string input;
+  std::getline(std::cin, input);
+
   std::vector<WeatherEntry> points = weather.getWeatherEntries(WeatherEntryType::AT, "1980");
+
+  std::cout << points.size() << std::endl;
 }
 
 void MerkelMain::enterAsk()
@@ -175,19 +181,7 @@ void MerkelMain::processUserOption(int userOption)
     }
     if (userOption == 2) 
     {
-        printMarketStats();
-    }
-    if (userOption == 3) 
-    {
-        enterAsk();
-    }
-    if (userOption == 4) 
-    {
-        enterBid();
-    }
-    if (userOption == 5) 
-    {
-        printWallet();
+        printWeatherStats();
     }
     if (userOption == 6) 
     {
