@@ -21,5 +21,6 @@ std::vector<WeatherEntry> Weather::getWeatherEntries(WeatherEntryType region,
       filtered_entries.push_back(entry);
     }
   }
-    
+  
+  return filtered_entries;
 }

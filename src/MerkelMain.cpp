@@ -3,6 +3,7 @@
 #include <vector>
 #include "OrderBookEntry.h"
 #include "CSVReader.h"
+#include "WeatherEntry.h"
 
 MerkelMain::MerkelMain()
 {
@@ -28,6 +29,8 @@ void MerkelMain::printMenu()
     std::cout << "1: Print help " << std::endl;
     // 2 print Weather for region
     std::cout << "2: Print Weahter for region" << std::endl;
+ 
+
     // 6 continue   
     std::cout << "6: Continue " << std::endl;
 
@@ -44,7 +47,7 @@ void MerkelMain::printMarketStats()
     // std::cout << "OrderBook contains :  " << orders.size() << " entries" << std::endl;
     // unsigned int bids = 0;
     // unsigned int asks = 0;
-    // for (OrderBookEntry& e : orders)
+   // for (OrderBookEntry& e : orders)
     // {
     //     if (e.orderType == OrderBookType::ask)
     //     {
@@ -57,6 +60,10 @@ void MerkelMain::printMarketStats()
     // }    
     // std::cout << "OrderBook asks:  " << asks << " bids:" << bids << std::endl;
 
+}
+
+void MerkelMain::printWeatherStats() {
+  std::vector<WeatherEntry> points = weather.getWeatherEntries(WeatherEntryType::AT, "1980");
 }
 
 void MerkelMain::enterAsk()
