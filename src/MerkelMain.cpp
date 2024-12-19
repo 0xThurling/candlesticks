@@ -48,25 +48,7 @@ void MerkelMain::printHelp()
     std::cout << "Help - your aim is to make money. Analyse the market and make bids and offers. " << std::endl;
 }
 
-void MerkelMain::printMarketStats()
-{
-    // std::cout << "OrderBook contains :  " << orders.size() << " entries" << std::endl;
-    // unsigned int bids = 0;
-    // unsigned int asks = 0;
-   // for (OrderBookEntry& e : orders)
-    // {
-    //     if (e.orderType == OrderBookType::ask)
-    //     {
-    //         asks ++;
-    //     }
-    //     if (e.orderType == OrderBookType::bid)
-    //     {
-    //         bids ++;
-    //     }  
-    // }    
-    // std::cout << "OrderBook asks:  " << asks << " bids:" << bids << std::endl;
-
-}
+void MerkelMain::printMarketStats() {}
 
 void MerkelMain::printWeatherStats() {
   std::cout << "Enter the region and year (FR,1990): " << std::endl;
@@ -105,7 +87,6 @@ void MerkelMain::printWeatherStats() {
 
 void MerkelMain::enterAsk()
 {
-    std::cout << "Make an ask - enter the amount: product,price, amount, eg  ETH/BTC,200,0.5" << std::endl;
     std::string input;
     std::getline(std::cin, input);
 
@@ -175,9 +156,7 @@ void MerkelMain::enterBid()
 }
 
 void MerkelMain::printWallet()
-{
-    std::cout << wallet.toString() << std::endl;
-}
+{}
         
 void MerkelMain::gotoNextTimeframe()
 {

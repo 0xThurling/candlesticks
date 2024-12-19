@@ -70,7 +70,6 @@ WeatherEntryType WeatherEntry::mapFromTokenToRegion(int index){
 }
 
 WeatherEntryType WeatherEntry::mapFromInputToRegion(std::string input){
-
   std::transform(input.begin(), input.end(), input.begin(), ::toupper);
 
   switch (weatherRegionMap.at(input)) {
