@@ -99,25 +99,12 @@ void MerkelMain::printWeatherStats() {
   double closingTemp = Weather::getClosingTemp(currentYearEntries);
   double openingTemp = Weather::getOpeningTemp(previousYearEntries);
 
+  std::vector<Candlestick> candlesticks;
   Candlestick candlestick{openingTemp, closingTemp, highestTemp, lowestTemp};
 
-  printCandlesticks(candlestick);
-}
+  candlesticks.push_back(candlestick);
 
-void MerkelMain::printCandlesticks(Candlestick& candlestick) {
-  std::string candle = R"(
-    │
-    █
-    │
-  )"
-  R"(
-    │
-    █
-    │
-  )";
-  ;
-
-  std::cout << candle << std::endl;
+  Candlestick::printCandleStickChart(candlesticks);
 }
 
 void MerkelMain::enterAsk()
