@@ -15,13 +15,19 @@ void Candlestick::printCandleStickChart(std::vector<Candlestick> &candlesticks){
   for (int i = 0; i < height; i++) {
     for (int j = 0; j < width; j++) {
       if (j == 0 && i == height - 1) {
-        std::cout << "  └";
+        std::cout << "    └";
       } else if (j == 0) {
-        if (i % 3 == 0) {
-          std::cout << " ┤";
+        if ((i % 3) - 1 == 0) {
+          if (temp < 0) {
+            std::cout << temp << " ┤";
+          } else if (temp == 0) {
+            std::cout << "  " << temp << " ┤";
+          } else {
+            std::cout << " " << temp << " ┤";
+          }
           temp -= 10;
         } else {
-          std::cout << "  │";
+          std::cout << "    │";
         }
       } else if (i == height - 1) {
         std::cout << "─";

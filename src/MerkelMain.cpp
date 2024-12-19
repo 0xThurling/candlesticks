@@ -20,8 +20,6 @@ void MerkelMain::init()
 
     currentTime = weather.getEarliestTime();
     
-    std::cout << currentTime << std::endl;
-
     while(true)
     {
         printMenu();
@@ -84,8 +82,6 @@ void MerkelMain::printWeatherStats() {
     WeatherEntryType region = WeatherEntry::mapFromInputToRegion(tokens[0]);
 
     int previousYear = std::stoi(tokens[1]) - 1;
-
-    std::cout << previousYear << std::endl;
 
     currentYearEntries  = weather.getWeatherEntries(region, tokens[1]);
     previousYearEntries = weather.getWeatherEntries(region, std::to_string(previousYear));
@@ -189,8 +185,6 @@ void MerkelMain::gotoNextTimeframe()
     std::vector<std::string> tokens = CSVReader::tokenise(currentTime, '-');
 
     currentTime = weather.goToNextTimeFrame(tokens[0]);
-
-    std::cout << currentTime << std::endl;
 }
  
 int MerkelMain::getUserOption()
