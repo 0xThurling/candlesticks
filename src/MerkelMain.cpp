@@ -4,6 +4,7 @@
 #include <ostream>
 #include <string>
 #include <vector>
+#include "Candlestick.h"
 #include "OrderBookEntry.h"
 #include "CSVReader.h"
 #include "WeatherEntry.h"
@@ -93,8 +94,30 @@ void MerkelMain::printWeatherStats() {
     std::cout << "MerkelMain::printWeatherStats error when mapping and retrieving entries" << std::endl;
   }
 
-  std::cout << currentYearEntries.begin()->timeframe << std::endl;
-  std::cout << previousYearEntries.begin()->timeframe << std::endl;
+  double lowestTemp = Weather::getLowestTemp(currentYearEntries);
+  double highestTemp = Weather::getHighestTemp(currentYearEntries);
+  double closingTemp = Weather::getClosingTemp(currentYearEntries);
+  double openingTemp = Weather::getOpeningTemp(previousYearEntries);
+
+  Candlestick candlestick{openingTemp, closingTemp, highestTemp, lowestTemp};
+
+  printCandlesticks(candlestick);
+}
+
+void MerkelMain::printCandlesticks(Candlestick& candlestick) {
+  std::string candle = R"(
+    │
+    █
+    │
+  )"
+  R"(
+    │
+    █
+    │
+  )";
+  ;
+
+  std::cout << candle << std::endl;
 }
 
 void MerkelMain::enterAsk()

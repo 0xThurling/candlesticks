@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include "Candlestick.h"
 #include "OrderBookEntry.h"
 #include "OrderBook.h"
 #include "Wallet.h"
@@ -24,6 +25,8 @@ class MerkelMain
         void gotoNextTimeframe();
         int getUserOption();
         void processUserOption(int userOption);
+
+        void printCandlesticks(Candlestick& candlestick);
 
         std::string currentTime;
 
