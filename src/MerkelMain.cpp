@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include "Candlestick.h"
+#include "ChartRenderer.h"
 #include "OrderBookEntry.h"
 #include "CSVReader.h"
 #include "WeatherEntry.h"
@@ -210,6 +211,8 @@ void MerkelMain::printFilteredChart(){
       std::vector<WeatherEntry> temp = weather.getWeatherEntries(region ,std::to_string(year));
       weatherDataYearlyEntries.push_back(temp);
     }
+
+    ChartRenderer::printGraph(weatherDataYearlyEntries);
 
   } catch (const std::exception& e) {
     std::cout << "printFilteredChart - there has been an error" << std::endl;
