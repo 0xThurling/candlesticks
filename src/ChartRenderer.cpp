@@ -2,10 +2,13 @@
 #include "Weather.h"
 #include "WeatherEntry.h"
 #include <cmath>
+#include <iomanip>
+#include <ios>
 #include <iostream>
 #include <iterator>
 #include <string>
 #include <strings.h>
+#include <system_error>
 #include <vector>
 
 ChartRenderer::ChartRenderer(){}
@@ -39,13 +42,16 @@ void ChartRenderer::printGraph(std::vector<std::vector<WeatherEntry>> yearly_ent
 
   std::cout << std::endl;
 
-  int temp = 50;
+  double temp = 50;
 
   for (int i = 0; i < height; i++) {
-    temp = mapYCoordFromIndex((double)i);
+
+    temp = round(mapYCoordFromIndex((double)i) * 10.0) / 10.0;
+    std::cout << std::fixed << std::setprecision(1);
+
     for (int j = 0; j < width;j++) {
       if (j == 0 && i == height - 1) {
-        std::cout << "    └";
+        std::cout << "      └";
       } else if (j == 0) {
         if ((i % 2) == 0) {
           // Prepare the y-axis
@@ -59,7 +65,7 @@ void ChartRenderer::printGraph(std::vector<std::vector<WeatherEntry>> yearly_ent
             std::cout << " " << temp << " ┤";
           }
         } else {
-          std::cout << "    │";
+          std::cout << "      │";
         }
       } else if (i == height - 1) {
         // Populate the x-axis
@@ -72,9 +78,21 @@ void ChartRenderer::printGraph(std::vector<std::vector<WeatherEntry>> yearly_ent
         WeatherEntry start = data_to_render[floor(j/10)];
         WeatherEntry end = data_to_render[floor(j/10) + 1];
 
-        // Skip the iterations once we hit the end
-        if (floor(j/10)+1 >= data_to_render.size()) {
-          continue;
+
+        if (j % 10 == 0) {
+          if (start.temp > mapYCoordFromIndex(i + 1) && start.temp < temp) {
+            std::cout << "*";
+          } else {
+            std::cout << " ";
+          }
+        } else {
+          double linSpace = linearSpace(start.temp, end.temp, j % 10);
+
+          if (linSpace > mapYCoordFromIndex(i + 1) && linSpace < temp) {
+            std::cout << "*";
+          } else {
+            std::cout << " ";
+          }
         }
       }
     }
@@ -85,4 +103,8 @@ void ChartRenderer::printGraph(std::vector<std::vector<WeatherEntry>> yearly_ent
 
 double ChartRenderer::mapYCoordFromIndex(double index){
   return -0.56 * index + 13.0;
+}
+
+double ChartRenderer::linearSpace(double y1, double y2, double i){
+  return y1 + (i / (10 - 1)) * (y2 - y1);
 }
