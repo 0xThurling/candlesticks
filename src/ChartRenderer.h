@@ -4,6 +4,9 @@
 #include <vector>
 
 class ChartRenderer {
+  private:
+    static double mapYCoordFromIndex(double index);
+  
   public:
     ChartRenderer();
 

@@ -1,8 +1,11 @@
 #include "ChartRenderer.h"
 #include "Weather.h"
 #include "WeatherEntry.h"
+#include <cmath>
 #include <iostream>
+#include <iterator>
 #include <string>
+#include <strings.h>
 #include <vector>
 
 ChartRenderer::ChartRenderer(){}
@@ -28,12 +31,19 @@ void ChartRenderer::printGraph(std::vector<std::vector<WeatherEntry>> yearly_ent
   unsigned int height = 25;
   unsigned int width = 90;
 
+  std::cout << data_to_render.size() << std::endl;
+
+  for (int i = 0; i < data_to_render.size();i++) {
+    std::cout << data_to_render[i].temp << std::endl;
+  }
+
   std::cout << std::endl;
 
   int temp = 50;
 
   for (int i = 0; i < height; i++) {
-    for (int j = 0; j < height; j++) {
+    temp = mapYCoordFromIndex((double)i);
+    for (int j = 0; j < width;j++) {
       if (j == 0 && i == height - 1) {
         std::cout << "    └";
       } else if (j == 0) {
@@ -58,7 +68,21 @@ void ChartRenderer::printGraph(std::vector<std::vector<WeatherEntry>> yearly_ent
         } else {
           std::cout << "─";
         }
-      } 
+      } else {
+        WeatherEntry start = data_to_render[floor(j/10)];
+        WeatherEntry end = data_to_render[floor(j/10) + 1];
+
+        // Skip the iterations once we hit the end
+        if (floor(j/10)+1 >= data_to_render.size()) {
+          continue;
+        }
+      }
     }
+    std::cout << std::endl;
   }
+}
+
+
+double ChartRenderer::mapYCoordFromIndex(double index){
+  return -0.56 * index + 13.0;
 }

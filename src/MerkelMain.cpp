@@ -38,7 +38,7 @@ void MerkelMain::printMenu()
     // 2 print Weather for region
     std::cout << "2: Print Weather for region" << std::endl;
     // 3 print chart for filtered data
-    std::cout << "3: Print Graph for date range and region";
+    std::cout << "3: Print Graph for date range and region" << std::endl;
  
 
     // 6 continue   
