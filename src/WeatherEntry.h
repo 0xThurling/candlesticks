@@ -45,5 +45,5 @@ class WeatherEntry {
     std::string timeframe;
     WeatherEntryType region;
 
-     static const std::map<std::string, WeatherEntryType> weatherRegionMap;
+    static const std::map<std::string, WeatherEntryType> weatherRegionMap;
 };

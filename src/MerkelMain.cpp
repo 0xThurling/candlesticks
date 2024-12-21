@@ -1,4 +1,5 @@
 #include "MerkelMain.h"
+#include <exception>
 #include <iostream>
 #include <iterator>
 #include <ostream>
@@ -35,6 +36,8 @@ void MerkelMain::printMenu()
     std::cout << "1: Print help " << std::endl;
     // 2 print Weather for region
     std::cout << "2: Print Weather for region" << std::endl;
+    // 3 print chart for filtered data
+    std::cout << "3: Print Graph for date range and region";
  
 
     // 6 continue   
@@ -182,6 +185,37 @@ int MerkelMain::getUserOption()
     return userOption;
 }
 
+void MerkelMain::printFilteredChart(){
+  std::cout << "Enter the region, start year and end year e.g. FR,1990,2001: " << std::endl;
+  std::string input;
+  std::getline(std::cin, input);
+
+  std::vector<std::string> tokens = CSVReader::tokenise(input,',');
+
+  try {
+    int year_difference = std::stoi(tokens[2]) - std::stoi(tokens[1]);
+
+    WeatherEntryType region = WeatherEntry::mapFromInputToRegion(tokens[0]);
+
+    if (year_difference < 1) {
+      std::cout << "Please choose valid years" << std::endl;
+      return;
+    }
+
+    std::vector<std::vector<WeatherEntry>> weatherDataYearlyEntries;
+
+    for (int i = 0; i <= year_difference; i++) {
+      int year = std::stoi(tokens[1]) + i;
+
+      std::vector<WeatherEntry> temp = weather.getWeatherEntries(region ,std::to_string(year));
+      weatherDataYearlyEntries.push_back(temp);
+    }
+
+  } catch (const std::exception& e) {
+    std::cout << "printFilteredChart - there has been an error" << std::endl;
+  }
+}
+
 void MerkelMain::processUserOption(int userOption)
 {
     if (userOption == 0) // bad input
@@ -195,6 +229,10 @@ void MerkelMain::processUserOption(int userOption)
     if (userOption == 2) 
     {
         printWeatherStats();
+    }
+    if (userOption == 3) 
+    {
+        printFilteredChart();
     }
     if (userOption == 6) 
     {

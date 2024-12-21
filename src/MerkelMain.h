@@ -26,6 +26,8 @@ class MerkelMain
         int getUserOption();
         void processUserOption(int userOption);
 
+
+        void printFilteredChart();
         void printCandlesticks(Candlestick& candlestick);
 
         std::string currentTime;

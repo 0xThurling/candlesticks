@@ -12,10 +12,13 @@ void Candlestick::printCandleStickChart(std::vector<Candlestick> &candlesticks){
 
   int temp = 50;
 
-  int highest = 35;
-  int opening = 23;
-  int closing = 5;
-  int lowest = -10;
+  for (const Candlestick& c : candlesticks) {
+    std::cout << "Highest: " << c.highestTemp << " Lowest: " << c.lowestTemp << " Opening: " << c.openingTemp << " Closing: " << c.closingTemp << std::endl;
+  }
+
+  std::cout << std::endl;
+
+  int tolerance = 3;
 
   for (int i = 0; i < height; i++) {
     temp = mapYCoordFromIndex(i);
@@ -23,13 +26,13 @@ void Candlestick::printCandleStickChart(std::vector<Candlestick> &candlesticks){
       if (j == 0 && i == height - 1) {
         std::cout << "    └";
       } else if (j == 0) {
-        if ((i % 3) == 0) {
+        if ((i % 2) == 0) {
           // Prepare the y-axis
-          if(temp < -12) {
+          if(temp < -10) {
             std::cout << temp << " ┤";
           } else if (temp < 10 && temp > -1) {
             std::cout << "  " << temp << " ┤";
-          } else if (temp < -1 && temp > -12) {
+          } else if (temp < -1 && temp > -10) {
             std::cout << " " << temp << " ┤";
           } else {
             std::cout << " " << temp << " ┤";
@@ -49,15 +52,31 @@ void Candlestick::printCandleStickChart(std::vector<Candlestick> &candlesticks){
 
             Candlestick candlestick = candlesticks[(j/10) - 1];
 
-            std::cout << candlestick.lowestTemp;
-
-            if (temp < highest && temp > opening) {
-              std::cout << "│";
-            } else if (temp < opening && temp > closing - 3) {
-              std::cout << "█";
-            } else if (temp < closing && temp > lowest) {
-              std::cout << "│";
+            if (candlestick.highestTemp == candlestick.lowestTemp) {
+              std::cout << " ";
+            } else if (candlestick.openingTemp < candlestick.closingTemp) {
+              if (temp < candlestick.highestTemp && temp > candlestick.closingTemp + tolerance) {
+                std::cout << "│";
+              } else if (temp < candlestick.closingTemp + tolerance 
+                  && temp > candlestick.openingTemp - tolerance) {
+                if (candlestick.closingTemp - candlestick.openingTemp < 1) {
+                 std::cout << "┼";
+                } else {
+                 std::cout << "█";
+                }
+              } else if (temp < candlestick.openingTemp && temp > candlestick.lowestTemp) {
+                std::cout << "│";
+              }
+            } else if (candlestick.closingTemp < candlestick.openingTemp) {
+              if (temp < candlestick.highestTemp && temp > candlestick.openingTemp) {
+                std::cout << "│";
+              } else if (temp < candlestick.openingTemp && temp > candlestick.closingTemp) {
+                std::cout << "█";
+              } else if (temp < candlestick.closingTemp && temp > candlestick.lowestTemp) {
+                std::cout << "│";
+              }
             }
+
           } else {
             std::cout << " ";
           }
