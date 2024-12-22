@@ -6,11 +6,11 @@ class Prediction {
   public:
     Prediction(std::vector<Candlestick> candlestickData);
 
-    std::vector<double> backshift(std::vector<double>& data, int k = 1);
+    std::vector<double> backshift(std::vector<double> data, int k = 1);
 
-    std::vector<double> arComponent(std::vector<double>& data);
+    std::vector<double> arComponent(std::vector<double> data);
 
-    std::vector<double> seasonalArComponent(std::vector<double>& data);
+    std::vector<double> seasonalArComponent(std::vector<double> data);
 
     std::vector<double> predict(int steps = 1);
 

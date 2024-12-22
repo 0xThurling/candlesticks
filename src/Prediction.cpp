@@ -1,5 +1,7 @@
 #include "Prediction.h"
 #include "Candlestick.h"
+#include <iostream>
+#include <iterator>
 #include <vector>
 
 Prediction::Prediction(std::vector<Candlestick> candlestickData) {
@@ -8,15 +10,16 @@ Prediction::Prediction(std::vector<Candlestick> candlestickData) {
   }
 }
 
-std::vector<double> Prediction::backshift(std::vector<double>& clonedData, int k) {
+std::vector<double> Prediction::backshift(std::vector<double> clonedData, int k) {
 
   std::vector<double> result;
 
   if (k < clonedData.size()) {
     // Add zeroes to the beginning
-    result.insert(clonedData.begin(), k, 0.0);
+    result.insert(result.begin(), k, 0.0);
 
-    result.insert(clonedData.end(), clonedData.begin(), clonedData.end() - k);
+    // Add data[:-k]
+    result.insert(result.end(), clonedData.begin(), clonedData.end() - k);
   } else {
     // If K >= data.size(), return a vector of zeroes
     result.resize(clonedData.size(), 0.0);
@@ -25,7 +28,7 @@ std::vector<double> Prediction::backshift(std::vector<double>& clonedData, int k
   return result;
 }
 
-std::vector<double> Prediction::arComponent(std::vector<double>& clonedData) {
+std::vector<double> Prediction::arComponent(std::vector<double> clonedData) {
   std::vector<double> shifted = backshift(clonedData);
 
   std::vector<double> result;
@@ -37,7 +40,7 @@ std::vector<double> Prediction::arComponent(std::vector<double>& clonedData) {
   return result;
 }
 
-std::vector<double> Prediction::seasonalArComponent(std::vector<double>& clonedData) {
+std::vector<double> Prediction::seasonalArComponent(std::vector<double> clonedData) {
   std::vector<double> shifted = backshift(clonedData, 1);
 
   std::vector<double> result;
@@ -55,8 +58,8 @@ std::vector<double> Prediction::predict(int steps){
 
   // Loop without index needed
   for (int _ = 0; _ < steps; _++) {
-    double ar = arComponent(working_data)[working_data.size() - 1];
-    double seasonalAr = seasonalArComponent(working_data)[working_data.size() - 1];
+    double ar = arComponent(working_data).back();
+    double seasonalAr = seasonalArComponent(working_data).back();
 
     double nextValue = ar + seasonalAr;
     predictions.push_back(nextValue);
@@ -69,6 +72,7 @@ std::vector<double> Prediction::predict(int steps){
 void Prediction::fit(int epochs) {
   for (int _ = 0; _ < epochs; _++) {
     std::vector<double> prediction = predict(1);
+ 
     double error = prediction[0] - data[data.size() - 1];
 
     phi -= learningRate * error * data[data.size() - 2];

@@ -11,6 +11,7 @@
 #include "ChartRenderer.h"
 #include "OrderBookEntry.h"
 #include "CSVReader.h"
+#include "Prediction.h"
 #include "Weather.h"
 #include "WeatherEntry.h"
 
@@ -44,6 +45,8 @@ void MerkelMain::printMenu()
     std::cout << "3: Print Candlestick chart for region and year" << std::endl;
     // 4 print Graph Chart for date range and region
     std::cout << "4: Print Graph for date range and region" << std::endl;
+    // 5 get prediction and then Print the prediction in a graph
+    std::cout << "5: Predict future temperatures" << std::endl;
     // 6 continue   
     std::cout << "6: Continue " << std::endl;
 
@@ -134,6 +137,62 @@ void MerkelMain::printCandlesticksChart() {
   }
 
   Candlestick::printCandleStickChart(candlesticks);
+}
+
+void MerkelMain::printPrediction(){
+  std::cout << "Enter the region (FR): " << std::endl;
+  std::string input;
+  std::getline(std::cin, input);
+
+  std::vector<std::string> tokens = CSVReader::tokenise(input, ',');
+
+  std::vector<WeatherEntry> temp;
+  std::vector<Candlestick> data;
+
+  try {
+    WeatherEntryType region = WeatherEntry::mapFromInputToRegion(tokens[0]);
+
+    int year = 1980;
+    
+    
+    std::cout << "Date                   Open       High      Low      Closing" << std::endl;
+    
+    std::cout << std::fixed << std::setprecision(3);
+
+    do {
+      temp = std::get<std::vector<WeatherEntry>>(weather.getWeatherEntries(region, std::to_string(year)));
+
+      if (temp.size() == 0) {
+        break;
+      }
+
+      double lowestTemp = Weather::getLowestTemp(temp);
+      double highestTemp = Weather::getHighestTemp(temp);
+      double closingTemp = Weather::getClosingTemp(temp);
+      double openingTemp = Weather::getOpeningTemp(temp);
+
+      Candlestick candle {openingTemp, closingTemp, highestTemp, lowestTemp};
+
+      data.push_back(candle);
+
+      std::cout << temp.begin()->timeframe << "   " << openingTemp << "      " << highestTemp << "   " << lowestTemp << "   " << closingTemp << std::endl;
+
+      year++;
+    } while (temp.size() > 0);
+
+  } catch (const std::exception& e) {
+    std::cout << "MerkelMain::printWeatherStats error when mapping and retrieving entries" << std::endl;
+  }
+
+  Prediction model {data};
+  model.fit();
+
+  std::vector<double> forecast = model.predict(3);
+  std::cout << "Next 3 temps: " << std::endl;
+
+  for (int i = 0; i < forecast.size(); i++) {
+    std::cout << forecast[i] << std::endl;
+  }
 }
 
 void MerkelMain::enterAsk()
@@ -288,6 +347,10 @@ void MerkelMain::processUserOption(int userOption)
     if (userOption == 4) 
     {
         printFilteredChart();
+    }
+    if (userOption == 5) 
+    {
+        printPrediction();
     }
     if (userOption == 6) 
     {
