@@ -117,6 +117,7 @@ void MerkelMain::printCandlesticksChart() {
 
   } catch (const std::exception& e) {
     std::cout << "MerkelMain::printWeatherStats error when mapping and retrieving entries" << std::endl;
+    throw e;
   }
 
   std::vector<Candlestick> candlesticks;

@@ -45,7 +45,6 @@ void Candlestick::printCandleStickChart(std::vector<Candlestick> &candlesticks){
         }
       } else {
           if (j % 10 == 0) {
-
             Candlestick candlestick = candlesticks[(j/10) - 1];
 
             if (candlestick.highestTemp == candlestick.lowestTemp) {
@@ -62,6 +61,8 @@ void Candlestick::printCandleStickChart(std::vector<Candlestick> &candlesticks){
                 }
               } else if (temp < candlestick.openingTemp && temp > candlestick.lowestTemp) {
                 std::cout << "│";
+              } else {
+                std::cout << " " ;
               }
             } else if (candlestick.closingTemp < candlestick.openingTemp) {
               if (temp < candlestick.highestTemp && temp > candlestick.openingTemp) {
@@ -70,7 +71,11 @@ void Candlestick::printCandleStickChart(std::vector<Candlestick> &candlesticks){
                 std::cout << "█";
               } else if (temp < candlestick.closingTemp && temp > candlestick.lowestTemp) {
                 std::cout << "│";
+              } else {
+                std::cout << " ";
               }
+            } else {
+              std::cout << " ";
             }
 
           } else {

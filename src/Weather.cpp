@@ -59,6 +59,7 @@ std::variant<std::vector<WeatherEntry>, std::vector<std::vector<WeatherEntry>>> 
       month++;
     }
 
+    return monthly_entries;
   }
   
   return filtered_entries;
