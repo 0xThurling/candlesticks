@@ -1,5 +1,7 @@
 #include "MerkelMain.h"
 #include <exception>
+#include <iomanip>
+#include <ios>
 #include <iostream>
 #include <iterator>
 #include <ostream>
@@ -36,11 +38,11 @@ void MerkelMain::printMenu()
     // 1 print help
     std::cout << "1: Print help " << std::endl;
     // 2 print Weather for region
-    std::cout << "2: Print Weather for region" << std::endl;
-    // 3 print chart for filtered data
-    std::cout << "3: Print Graph for date range and region" << std::endl;
- 
-
+    std::cout << "2: Print Weather data for region" << std::endl;
+    // 3 print Candlestick Chart for region and year
+    std::cout << "3: Print Candlestick chart for region and year" << std::endl;
+    // 4 print Graph Chart for date range and region
+    std::cout << "4: Print Graph for date range and region" << std::endl;
     // 6 continue   
     std::cout << "6: Continue " << std::endl;
 
@@ -54,7 +56,50 @@ void MerkelMain::printHelp()
 
 void MerkelMain::printMarketStats() {}
 
+
 void MerkelMain::printWeatherStats() {
+  std::cout << "Enter the region (FR): " << std::endl;
+  std::string input;
+  std::getline(std::cin, input);
+
+  std::vector<std::string> tokens = CSVReader::tokenise(input, ',');
+
+  std::vector<WeatherEntry> temp;
+    
+  try {
+    WeatherEntryType region = WeatherEntry::mapFromInputToRegion(tokens[0]);
+
+    int year = 1980;
+    
+    
+    std::cout << "Date                   Open       High      Low      Closing" << std::endl;
+    
+    std::cout << std::fixed << std::setprecision(3);
+
+    do {
+      temp = weather.getWeatherEntries(region, std::to_string(year));
+
+      if (temp.size() == 0) {
+        break;
+      }
+
+      double lowestTemp = Weather::getLowestTemp(temp);
+      double highestTemp = Weather::getHighestTemp(temp);
+      double closingTemp = Weather::getClosingTemp(temp);
+      double openingTemp = Weather::getOpeningTemp(temp);
+
+      std::cout << temp.begin()->timeframe << "   " << openingTemp << "      " << highestTemp << "   " << lowestTemp << "   " << closingTemp << std::endl;
+
+      year++;
+    } while (temp.size() > 0);
+
+  } catch (const std::exception& e) {
+    std::cout << "MerkelMain::printWeatherStats error when mapping and retrieving entries" << std::endl;
+  }
+
+}
+
+void MerkelMain::printCandlesticksChart() {
   std::cout << "Enter the region and year (FR,1990): " << std::endl;
   std::string input;
   std::getline(std::cin, input);
@@ -234,6 +279,10 @@ void MerkelMain::processUserOption(int userOption)
         printWeatherStats();
     }
     if (userOption == 3) 
+    {
+        printCandlesticksChart();
+    }
+    if (userOption == 4) 
     {
         printFilteredChart();
     }

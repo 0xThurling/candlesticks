@@ -28,6 +28,8 @@ class MerkelMain
 
 
         void printFilteredChart();
+
+        void printCandlesticksChart();
         void printCandlesticks(Candlestick& candlestick);
 
         std::string currentTime;
