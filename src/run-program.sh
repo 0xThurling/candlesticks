@@ -10,7 +10,7 @@ for file in *.cpp; do
 done
 
 # Compile all cpp files
-g++ -std=c++11 "${cpp_files[@]}" -o program
+g++ -std=c++17 "${cpp_files[@]}" -o program
 
 # Check if compilation was successful
 if [ $? -eq 0 ]; then

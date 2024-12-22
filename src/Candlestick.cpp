@@ -12,10 +12,6 @@ void Candlestick::printCandleStickChart(std::vector<Candlestick> &candlesticks){
 
   int temp = 50;
 
-  for (const Candlestick& c : candlesticks) {
-    std::cout << "Highest: " << c.highestTemp << " Lowest: " << c.lowestTemp << " Opening: " << c.openingTemp << " Closing: " << c.closingTemp << std::endl;
-  }
-
   std::cout << std::endl;
 
   int tolerance = 3;

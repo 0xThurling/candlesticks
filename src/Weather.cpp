@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <string>
+#include <variant>
 #include <vector>
 
 Weather::Weather(std::string filename) {
@@ -11,16 +12,53 @@ Weather::Weather(std::string filename) {
 }
 
 // Focuses on yearly data for now
-std::vector<WeatherEntry> Weather::getWeatherEntries(WeatherEntryType region,
-                                                    std::string timeframe) 
+std::variant<std::vector<WeatherEntry>, std::vector<std::vector<WeatherEntry>>> Weather::getWeatherEntries(WeatherEntryType region,
+                                                    std::string timestamp,
+                                                    WeatherFilterOptions timeframe) 
 {
   std::vector<WeatherEntry> filtered_entries;
 
   for (const WeatherEntry& entry : entryPoints) {
     if (entry.region == region &&
-        entry.timeframe.find(timeframe) != std::string::npos) {
+        entry.timeframe.find(timestamp) != std::string::npos) {
       filtered_entries.push_back(entry);
     }
+  }
+
+
+  std::vector<std::vector<WeatherEntry>> monthly_entries;
+
+
+  // Only done when montly time period is selected - get the montly entries for a specific year
+  if (timeframe == WeatherFilterOptions::monthly) {
+    int month = 1;
+
+    std::vector<WeatherEntry> monthly;
+
+    while (month <= 12) {
+
+      std::string month_string;
+
+      if (month < 10) {
+        month_string = "0" + std::to_string(month);
+      } else {
+        month_string = std::to_string(month);
+      }
+  
+      std::string time = timestamp + "-" + month_string;
+
+      for (const WeatherEntry &entry : filtered_entries) {
+        if (entry.region == region &&
+            entry.timeframe.find(time) != std::string::npos) {
+          monthly.push_back(entry);
+        }
+      }
+
+      monthly_entries.push_back(monthly);
+
+      month++;
+    }
+
   }
   
   return filtered_entries;

@@ -11,6 +11,7 @@
 #include "ChartRenderer.h"
 #include "OrderBookEntry.h"
 #include "CSVReader.h"
+#include "Weather.h"
 #include "WeatherEntry.h"
 
 MerkelMain::MerkelMain()
@@ -77,7 +78,7 @@ void MerkelMain::printWeatherStats() {
     std::cout << std::fixed << std::setprecision(3);
 
     do {
-      temp = weather.getWeatherEntries(region, std::to_string(year));
+      temp = std::get<std::vector<WeatherEntry>>(weather.getWeatherEntries(region, std::to_string(year)));
 
       if (temp.size() == 0) {
         break;
@@ -106,30 +107,30 @@ void MerkelMain::printCandlesticksChart() {
 
   std::vector<std::string> tokens = CSVReader::tokenise(input, ',');
 
-  std::vector<WeatherEntry> currentYearEntries;
-  std::vector<WeatherEntry> previousYearEntries;
+  std::vector<std::vector<WeatherEntry>> monthly_entries;
 
   try {
     WeatherEntryType region = WeatherEntry::mapFromInputToRegion(tokens[0]);
 
-    int previousYear = std::stoi(tokens[1]) - 1;
-
-    currentYearEntries  = weather.getWeatherEntries(region, tokens[1]);
-    previousYearEntries = weather.getWeatherEntries(region, std::to_string(previousYear));
+    monthly_entries = std::get<std::vector<std::vector<WeatherEntry>>>(
+        weather.getWeatherEntries(region, tokens[1], WeatherFilterOptions::monthly));
 
   } catch (const std::exception& e) {
     std::cout << "MerkelMain::printWeatherStats error when mapping and retrieving entries" << std::endl;
   }
 
-  double lowestTemp = Weather::getLowestTemp(currentYearEntries);
-  double highestTemp = Weather::getHighestTemp(currentYearEntries);
-  double closingTemp = Weather::getClosingTemp(currentYearEntries);
-  double openingTemp = Weather::getOpeningTemp(previousYearEntries);
-
   std::vector<Candlestick> candlesticks;
-  Candlestick candlestick{openingTemp, closingTemp, highestTemp, lowestTemp};
 
-  candlesticks.push_back(candlestick);
+  for (int i = 0; i < monthly_entries.size(); i++) {
+    double lowestTemp = Weather::getLowestTemp(monthly_entries[i]);
+    double highestTemp = Weather::getHighestTemp(monthly_entries[i]);
+    double closingTemp = monthly_entries[i].end()->temp;
+    double openingTemp = monthly_entries[i].begin()->temp;
+
+    Candlestick candlestick{openingTemp, closingTemp, highestTemp, lowestTemp};
+
+    candlesticks.push_back(candlestick);
+  }
 
   Candlestick::printCandleStickChart(candlesticks);
 }
@@ -253,7 +254,8 @@ void MerkelMain::printFilteredChart(){
     for (int i = 0; i <= year_difference; i++) {
       int year = std::stoi(tokens[1]) + i;
 
-      std::vector<WeatherEntry> temp = weather.getWeatherEntries(region ,std::to_string(year));
+      std::vector<WeatherEntry> temp = std::get<std::vector<WeatherEntry>>(
+          weather.getWeatherEntries(region, std::to_string(year)));
       weatherDataYearlyEntries.push_back(temp);
     }
 
