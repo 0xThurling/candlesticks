@@ -1,27 +1,28 @@
 #pragma once
 
-#include "OrderBookEntry.h"
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "WeatherEntry.h"
 
-class CSVReader
-{
-    public:
-     CSVReader();
+// CSVReader class declaration
+class CSVReader {
+public:
+  // Constructor
+  CSVReader();
 
-     static std::vector<WeatherEntry> readCSV(std::string csvFile);
-     static std::vector<std::string> tokenise(std::string csvLine, char separator);
-   
-     static OrderBookEntry stringsToOBE(std::string price, 
-                                        std::string amount, 
-                                        std::string timestamp, 
-                                        std::string product, 
-                                        OrderBookType OrderBookType);
+  // Static method to read a CSV file and return a vector of WeatherEntry
+  // objects
+  static std::vector<WeatherEntry> readCSV(std::string csvFile);
 
-    private:
-     static OrderBookEntry stringsToOBE(std::vector<std::string> strings);
+  // Static method to tokenize a CSV line into a vector of strings based on a
+  // separator
+  static std::vector<std::string> tokenise(std::string csvLine, char separator);
 
-     static std::vector<WeatherEntry> stringsToWE(std::vector<std::string> strings);
+private:
+  static std::vector<WeatherEntry>
+
+  // Static method to convert a vector of strings to a vector of WeatherEntry
+  // objects
+  stringsToWE(std::vector<std::string> strings);
 };

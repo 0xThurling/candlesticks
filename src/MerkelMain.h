@@ -1,41 +1,55 @@
 #pragma once
 
-#include <vector>
 #include "Candlestick.h"
-#include "OrderBookEntry.h"
-#include "OrderBook.h"
-#include "Wallet.h"
 #include "Weather.h"
+#include <vector>
 
+#include "CSVReader.h"
 
-class MerkelMain
-{
-    public:
-        MerkelMain();
-        /** Call this to start the sim */
-        void init();
-    private: 
-        void printMenu();
-        void printHelp();
-        void printMarketStats();
-        void printWeatherStats();
-        void printPrediction();
-        void enterAsk();
-        void enterBid();
-        void printWallet();
-        void gotoNextTimeframe();
-        int getUserOption();
-        void processUserOption(int userOption);
+/**
+ * @class MerkelMain
+ * @brief Main class for managing the simulation
+ */
+class MerkelMain {
+public:
+  /** Constructor for MerkelMain */
+  MerkelMain();
+  /** Initializes and starts the simulation */
+  void init();
 
+private:
+  /** Displays the main menu options */
+  void printMenu();
+  /** Shows help information */
+  void printHelp();
+  /** Displays current market statistics */
+  void printMarketStats();
+  /** Shows weather-related statistics */
+  void printWeatherStats();
+  /** Displays market predictions */
+  void printPrediction();
+  /** Advances simulation to next time period */
+  void gotoNextTimeframe();
+  /** Gets user input for menu selection
+   * @return Selected menu option as integer */
+  int getUserOption();
+  /** Processes the user's menu selection
+   * @param userOption The selected menu option */
+  void processUserOption(int userOption);
 
-        void printFilteredChart();
+  /** Displays filtered chart data */
+  void printFilteredChart();
 
-        void printCandlesticksChart();
-        void printCandlesticks(Candlestick& candlestick);
+  /** Displays candlestick chart */
+  void printCandlesticksChart();
 
-        std::string currentTime;
+  /** Prints individual candlestick data
+   * @param candlestick The candlestick to display */
+  void printCandlesticks(Candlestick &candlestick);
 
-        Wallet wallet;
+  /** Stores the current timestamp */
+  std::string currentTime;
 
-        Weather weather{"weather.csv"};
+  /** Weather data object initialized with weather.csv file */
+  Weather weather{"weather.csv"};
 };

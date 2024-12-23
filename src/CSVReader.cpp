@@ -1,132 +1,107 @@
 #include "CSVReader.h"
-#include "Weather.h"
 #include "WeatherEntry.h"
 #include <exception>
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <string>
 #include <vector>
 
+// Constructor for CSVReader class
+CSVReader::CSVReader() {}
 
-CSVReader::CSVReader()
-{
+// Method to read a CSV file and return a vector of WeatherEntry objects
+std::vector<WeatherEntry> CSVReader::readCSV(std::string csvFilename) {
+  // Vector to store WeatherEntry objects
+  std::vector<WeatherEntry> entries;
+  // Open CSV file
+  std::ifstream csvFile{csvFilename};
+  // String to store each line of the CSV file
+  std::string line;
+  // Log Message
+  std::cout << "Loading file data" << std::endl;
 
+  // Check if the file is open
+  if (csvFile.is_open()) {
+    // Read each line of the file
+    while (std::getline(csvFile, line)) {
+      try {
+        // Tokenise the line and convert to WeatherEntry objects
+        std::vector<WeatherEntry> woe = stringsToWE(tokenise(line, ','));
+        for (const WeatherEntry &entry : woe) {
+          // Add each WeatherEntry to the entries vector
+          entries.push_back(entry);
+        }
+      } catch (const std::exception &e) {
+        // Log Message for bad data
+        std::cout << "CSVReader::readCSV bad data" << std::endl;
+      }
+    } // end of while
+  }
+
+  std::cout << "CSVReader::readCSV read " << entries.size() << " entries"
+            << std::endl;
+  // Return the vector of WeatherEntry objects
+  return entries;
 }
 
-std::vector<WeatherEntry> CSVReader::readCSV(std::string csvFilename)
-{
-    std::vector<WeatherEntry> entries;
-
-    std::ifstream csvFile{csvFilename};
-    std::string line;
-    if (csvFile.is_open())
-    {
-        while(std::getline(csvFile, line))
-        {
-            try {
-              std::vector<WeatherEntry> woe = stringsToWE(tokenise(line, ','));
-              for (const WeatherEntry& entry : woe) {
-                entries.push_back(entry); 
-              }
-            }catch(const std::exception& e)
-            {
-                std::cout << "CSVReader::readCSV bad data"  << std::endl;
-            }
-        }// end of while
-    }    
-
-    std::cout << "CSVReader::readCSV read " << entries.size() << " entries"  << std::endl;
-    return entries; 
-}
-
-std::vector<std::string> CSVReader::tokenise(std::string csvLine, char separator)
-{
-   std::vector<std::string> tokens;
-   signed int start, end;
-   std::string token;
-    start = csvLine.find_first_not_of(separator, 0);
-    do{
-        end = csvLine.find_first_of(separator, start);
-        if (start == csvLine.length() || start == end) break;
-        if (end >= 0) token = csvLine.substr(start, end - start);
-        else token = csvLine.substr(start, csvLine.length() - start);
-        tokens.push_back(token);
+// Method to tokenise a CSV line into a vector of string based on a separator
+std::vector<std::string> CSVReader::tokenise(std::string csvLine,
+                                             char separator) {
+  // Vector to store tokens
+  std::vector<std::string> tokens;
+  // Variables to store start and end positions of tokens
+  signed int start, end;
+  // String to store each token
+  std::string token;
+  // Fine the first non-seporator character
+  start = csvLine.find_first_not_of(separator, 0);
+  do {
+    // Find the next separator char
+    end = csvLine.find_first_of(separator, start);
+    // Break if end of line or no more
+    if (start == csvLine.length() || start == end)
+      break;
+    // Extract the token
+    if (end >= 0)
+      token = csvLine.substr(start, end - start);
+    // Extract the last token
+    else
+      token = csvLine.substr(start, csvLine.length() - start);
+    // Add the token to the vector
+    tokens.push_back(token);
+    // Update the start position
     start = end + 1;
-    }while(end > 0);
+  } while (end > 0);
 
-   return tokens; 
+  // Return the vector of tokens
+  return tokens;
 }
 
-std::vector<WeatherEntry> CSVReader::stringsToWE(std::vector<std::string> strings){
+// Method to convert a vector of strings to a vector of WeatherEntry objects
+std::vector<WeatherEntry>
+CSVReader::stringsToWE(std::vector<std::string> strings) {
+  // Vector to store WeatherEntry objects
   std::vector<WeatherEntry> entries;
 
   for (int i = 1; i < strings.size(); i++) {
     try {
+      // Map token to region
       WeatherEntryType region = WeatherEntry::mapFromTokenToRegion(i);
+      // Convert string to double for temperature
       double temperature = std::stod(strings[i]);
+      // Get the timeframe
       std::string timeframe = strings[0];
 
+      // Create Weather Entry object
       WeatherEntry entry{temperature, timeframe, region};
+      // Add the WeatherEntry object to the vector
       entries.push_back(entry);
-    } catch (const std::exception& e) {
-      std::cout << "CSVReader::stringsToW - error processing index " << i << " on timeframe: " << strings[0];
+    } catch (const std::exception &e) {
+      // Skip bat data
       continue;
     }
   }
 
+  // Return the vector of WeatherEntry objects
   return entries;
 }
-
-OrderBookEntry CSVReader::stringsToOBE(std::vector<std::string> tokens)
-{
-    double price, amount;
-
-    if (tokens.size() != 5) // bad
-    {
-        std::cout << "Bad line " << std::endl;
-        throw std::exception{};
-    }
-    // we have 5 tokens
-    try {
-         price = std::stod(tokens[3]);
-         amount = std::stod(tokens[4]);
-    }catch(const std::exception& e){
-        std::cout << "CSVReader::stringsToOBE Bad float! " << tokens[3]<< std::endl;
-        std::cout << "CSVReader::stringsToOBE Bad float! " << tokens[4]<< std::endl; 
-        throw;        
-    }
-
-    OrderBookEntry obe{price, 
-                        amount, 
-                        tokens[0],
-                        tokens[1], 
-                        OrderBookEntry::stringToOrderBookType(tokens[2])};
-
-    return obe; 
-}
-
-
-OrderBookEntry CSVReader::stringsToOBE(std::string priceString, 
-                                    std::string amountString, 
-                                    std::string timestamp, 
-                                    std::string product, 
-                                    OrderBookType orderType)
-{
-    double price, amount;
-    try {
-         price = std::stod(priceString);
-         amount = std::stod(amountString);
-    }catch(const std::exception& e){
-        std::cout << "CSVReader::stringsToOBE Bad float! " << priceString<< std::endl;
-        std::cout << "CSVReader::stringsToOBE Bad float! " << amountString<< std::endl; 
-        throw;        
-    }
-    OrderBookEntry obe{price, 
-                    amount, 
-                    timestamp,
-                    product, 
-                    orderType};
-                
-    return obe;
-}
-     

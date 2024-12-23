@@ -3,22 +3,17 @@
 #include <iomanip>
 #include <ios>
 #include <iostream>
-#include <iterator>
 #include <ostream>
 #include <string>
 #include <vector>
 #include "Candlestick.h"
 #include "ChartRenderer.h"
-#include "OrderBookEntry.h"
-#include "CSVReader.h"
 #include "Prediction.h"
 #include "Weather.h"
 #include "WeatherEntry.h"
 
-MerkelMain::MerkelMain()
-{
 
-}
+MerkelMain::MerkelMain() {}
 
 void MerkelMain::init()
 {
@@ -55,11 +50,8 @@ void MerkelMain::printMenu()
 
 void MerkelMain::printHelp()
 {
-    std::cout << "Help - your aim is to make money. Analyse the market and make bids and offers. " << std::endl;
+    std::cout << "Help - Analyse weather patterns in different regions of Europe. " << std::endl;
 }
-
-void MerkelMain::printMarketStats() {}
-
 
 void MerkelMain::printWeatherStats() {
   std::cout << "Enter the region (FR): " << std::endl;
@@ -205,80 +197,6 @@ void MerkelMain::printPrediction(){
 
   ChartRenderer::printGraph(chart);
 }
-
-void MerkelMain::enterAsk()
-{
-    std::string input;
-    std::getline(std::cin, input);
-
-    std::vector<std::string> tokens = CSVReader::tokenise(input, ',');
-    if (tokens.size() != 3)
-    {
-        std::cout << "MerkelMain::enterAsk Bad input! " << input << std::endl;
-    }
-    else {
-        try {
-            OrderBookEntry obe = CSVReader::stringsToOBE(
-                tokens[1],
-                tokens[2], 
-                currentTime, 
-                tokens[0], 
-                OrderBookType::ask 
-            );
-            obe.username = "simuser";
-            if (wallet.canFulfillOrder(obe))
-            {
-                std::cout << "Wallet looks good. " << std::endl;
-            }
-            else {
-                std::cout << "Wallet has insufficient funds . " << std::endl;
-            }
-        }catch (const std::exception& e)
-        {
-            std::cout << " MerkelMain::enterAsk Bad input " << std::endl;
-        }   
-    }
-}
-
-void MerkelMain::enterBid()
-{
-    std::cout << "Make an bid - enter the amount: product,price, amount, eg  ETH/BTC,200,0.5" << std::endl;
-    std::string input;
-    std::getline(std::cin, input);
-
-    std::vector<std::string> tokens = CSVReader::tokenise(input, ',');
-    if (tokens.size() != 3)
-    {
-        std::cout << "MerkelMain::enterBid Bad input! " << input << std::endl;
-    }
-    else {
-        try {
-            OrderBookEntry obe = CSVReader::stringsToOBE(
-                tokens[1],
-                tokens[2], 
-                currentTime, 
-                tokens[0], 
-                OrderBookType::bid 
-            );
-            obe.username = "simuser";
-
-            if (wallet.canFulfillOrder(obe))
-            {
-                std::cout << "Wallet looks good. " << std::endl;
-            }
-            else {
-                std::cout << "Wallet has insufficient funds . " << std::endl;
-            }
-        }catch (const std::exception& e)
-        {
-            std::cout << " MerkelMain::enterBid Bad input " << std::endl;
-        }   
-    }
-}
-
-void MerkelMain::printWallet()
-{}
-        
 void MerkelMain::gotoNextTimeframe()
 {
     std::cout << "Going to next time frame. " << std::endl;
