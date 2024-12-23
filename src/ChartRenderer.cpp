@@ -1,3 +1,15 @@
+/**
+ * Author: Jacques Thurling
+ * Date: 2024-23-12
+ * Notes: All code written without assistance
+*/
+
+/**
+ * ===============================================
+ * Code written by Jacques Thurling
+ * ===============================================
+*/
+
 #include "ChartRenderer.h"
 #include "Weather.h"
 #include "WeatherEntry.h"
@@ -119,3 +131,10 @@ double ChartRenderer::mapYCoordFromIndex(double index) {
 double ChartRenderer::linearSpace(double y1, double y2, double i) {
   return y1 + (i / (10 - 1)) * (y2 - y1);
 }
+/**
+ * ===================================================
+ *  End of written code section
+ * ===================================================
+*/
+
+

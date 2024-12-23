@@ -1,3 +1,15 @@
+/**
+ * Author: Jacques Thurling
+ * Date: 2024-23-12
+ * Notes: All code written without assistance
+*/
+
+/**
+ * ===============================================
+ * Code written by Jacques Thurling
+ * ===============================================
+*/
+
 #include "WeatherEntry.h"
 #include <algorithm>
 #include <cctype>
@@ -219,3 +231,10 @@ WeatherEntryType WeatherEntry::mapFromInputToRegion(std::string input) {
     break;
   }
 }
+/**
+ * ===================================================
+ *  End of written code section
+ * ===================================================
+*/
+
+

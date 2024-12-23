@@ -1,3 +1,11 @@
+/**
+ * Author: Jacques Thurling
+ * Date: 2024-23-12
+ * Notes: Used the main MerkelMain class from the initial program given
+ * This is then used as the baseline to update the class to allow the
+ * use of the new weather statistical functions and print methods
+*/
+
 #include "MerkelMain.h"
 #include "Candlestick.h"
 #include "ChartRenderer.h"
@@ -68,6 +76,12 @@ void MerkelMain::printHelp() {
       << "Help - Analyse weather patterns in different regions of Europe. "
       << std::endl;
 }
+
+/**
+ * ==============================================
+ * Code written by Jacques Thurling
+ * ==============================================
+*/
 
 /**
  * Prints weather statistics for a specified region showing open, high, low and
@@ -405,3 +419,10 @@ void MerkelMain::processUserOption(int userOption) {
     gotoNextTimeframe();
   }
 }
+/**
+ * ===================================================
+ *  End of written code section
+ * ===================================================
+*/
+
+

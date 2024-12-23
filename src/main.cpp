@@ -1,3 +1,9 @@
+/**
+ * Author: UoL
+ * Date: 2024-23-12
+ * Notes: All code taken from the initial program given
+*/
+
 #include "MerkelMain.h"
 
 /**

@@ -1,3 +1,15 @@
+/**
+ * Author: Jacques Thurling
+ * Date: 2024-23-12
+ * Notes: All code written without assistance
+*/
+
+/**
+ * ==========================================
+ * Code written by Jacques Thurling
+ * ==========================================
+*/
+
 #pragma once
 
 #include <map>
@@ -54,3 +66,10 @@ public:
   // Static map to convert string representations to region enums
   static const std::map<std::string, WeatherEntryType> weatherRegionMap;
 };
+/**
+ * ===================================================
+ *  End of written code section
+ * ===================================================
+*/
+
+

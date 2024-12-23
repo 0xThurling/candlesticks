@@ -1,3 +1,15 @@
+/**
+ * Author: Jacques Thurling
+ * Date: 2024-23-12
+ * Notes: All code written without assistance
+*/
+
+/**
+ * ===============================================
+ * Code written by Jacques Thurling
+ * ===============================================
+*/
+
 #include "Prediction.h"
 #include "Candlestick.h"
 #include <vector>
@@ -107,3 +119,10 @@ void Prediction::fit(int epochs) {
     PHI -= learningRate * error * data[data.size() - 1];
   }
 }
+/**
+ * ===================================================
+ *  End of written code section
+ * ===================================================
+*/
+
+

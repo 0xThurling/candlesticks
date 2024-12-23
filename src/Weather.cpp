@@ -1,3 +1,15 @@
+/**
+ * Author: Jacques Thurling
+ * Date: 2024-23-12
+ * Notes: All code written without assistance
+*/
+
+/**
+ * ===============================================
+ * Code written by Jacques Thurling
+ * ===============================================
+*/
+
 #include "Weather.h"
 #include "CSVReader.h"
 #include "WeatherEntry.h"
@@ -171,3 +183,10 @@ double Weather::getLowestTemp(std::vector<WeatherEntry> &currentTimeEntries) {
 
   return lowestTemp;
 }
+/**
+ * ===================================================
+ *  End of written code section
+ * ===================================================
+*/
+
+

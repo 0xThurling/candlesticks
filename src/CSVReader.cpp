@@ -1,3 +1,10 @@
+/**
+ * Author: Jacques Thurling
+ * Date: 2024-23-12
+ * Notes: Used the main CSVReader from the original MerkelMain project given for us to use
+ * and updated it using the new WeatherEntry object instead of the OrderBookEntry
+*/
+
 #include "CSVReader.h"
 #include "WeatherEntry.h"
 #include <exception>
@@ -77,6 +84,12 @@ std::vector<std::string> CSVReader::tokenise(std::string csvLine,
   return tokens;
 }
 
+/**
+* ================================================
+* Code written by Jacques Thurling
+* ================================================
+*/
+
 // Method to convert a vector of strings to a vector of WeatherEntry objects
 std::vector<WeatherEntry>
 CSVReader::stringsToWE(std::vector<std::string> strings) {
@@ -105,3 +118,10 @@ CSVReader::stringsToWE(std::vector<std::string> strings) {
   // Return the vector of WeatherEntry objects
   return entries;
 }
+/**
+ * ===================================================
+ *  End of written code section
+ * ===================================================
+*/
+
+

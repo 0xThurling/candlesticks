@@ -1,3 +1,15 @@
+/**
+ * Author: Jacques Thurling
+ * Date: 2024-23-12
+ * Notes: All code written without assistance
+*/
+
+/**
+ * ===============================================
+ * Code written by Jacques Thurling
+ * ===============================================
+*/
+
 #pragma once
 
 #include "WeatherEntry.h"
@@ -37,3 +49,10 @@ public:
 private:
   std::vector<WeatherEntry> entryPoints;
 };
+/**
+ * ===================================================
+ *  End of written code section
+ * ===================================================
+*/
+
+
