@@ -148,14 +148,13 @@ void MerkelMain::printPrediction(){
 
   std::vector<WeatherEntry> temp;
   std::vector<Candlestick> data;
-
+  
+  int year = 1980;
+  
   try {
     WeatherEntryType region = WeatherEntry::mapFromInputToRegion(tokens[0]);
 
-    int year = 1980;
-    
-    
-    std::cout << "Date                   Open       High      Low      Closing" << std::endl;
+    std::cout << "Making Predictions" << std::endl;
     
     std::cout << std::fixed << std::setprecision(3);
 
@@ -175,8 +174,6 @@ void MerkelMain::printPrediction(){
 
       data.push_back(candle);
 
-      std::cout << temp.begin()->timeframe << "   " << openingTemp << "      " << highestTemp << "   " << lowestTemp << "   " << closingTemp << std::endl;
-
       year++;
     } while (temp.size() > 0);
 
@@ -187,12 +184,26 @@ void MerkelMain::printPrediction(){
   Prediction model {data};
   model.fit();
 
-  std::vector<double> forecast = model.predict(3);
-  std::cout << "Next 3 temps: " << std::endl;
+  std::vector<double> forecast = model.predict(5);
+  std::cout << "Next 5 temps: " << std::endl;
+
+
+  std::vector<std::vector<WeatherEntry>> chart;
 
   for (int i = 0; i < forecast.size(); i++) {
-    std::cout << forecast[i] << std::endl;
+    std::vector<WeatherEntry> predictions;
+
+    WeatherEntry prediction {
+        forecast[i],
+        std::to_string(year) + "-01-01T00:00:00Z",
+        WeatherEntry::mapFromInputToRegion(tokens[0])
+    };
+
+    predictions.push_back(prediction);
+    chart.push_back(predictions);
   }
+
+  ChartRenderer::printGraph(chart);
 }
 
 void MerkelMain::enterAsk()
