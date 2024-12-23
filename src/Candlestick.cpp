@@ -1,3 +1,15 @@
+/**
+ * Author: Jacques Thurling
+ * Date: 2024-23-12
+ * Notes: All code written without assistance
+*/
+
+/**
+ * ================================
+ * Code written by Jacques Thurling
+ * ================================
+*/
+
 #include "Candlestick.h"
 #include <iostream>
 
@@ -116,3 +128,8 @@ void Candlestick::printCandleStickChart(
 double Candlestick::mapYCoordFromIndex(int index) {
   return 40 - ((80 * index) / 25);
 }
+/**
+ * ================================
+*/
+
+

@@ -1,3 +1,16 @@
+/**
+ * Author: Jacques Thurling
+ * Date: 2024-23-12
+ * Notes: All code written without assistance
+*/
+
+/**
+ * ================================
+ * Code written by Jacques Thurling
+ * ================================
+*/
+
+
 #pragma once
 
 #include <vector>
@@ -27,3 +40,8 @@ public:
   double highestTemp;
   double lowestTemp;
 };
+/**
+ * ================================
+*/
+
+

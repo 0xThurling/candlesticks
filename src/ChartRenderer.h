@@ -1,3 +1,15 @@
+/**
+ * Author: Jacques Thurling
+ * Date: 2024-23-12
+ * Notes: All code written without assistance
+*/
+
+/**
+ * ================================
+ * Code written by Jacques Thurling
+ * ================================
+*/
+
 #pragma once
 
 #include "WeatherEntry.h"
@@ -23,3 +35,8 @@ public:
   // @param i Current position between y1 and y2
   static double linearSpace(double y1, double y2, double i);
 };
+/**
+ * ================================
+*/
+
+

@@ -1,3 +1,11 @@
+/**
+ * Author: Jacques Thurling
+ * Date: 2024-23-12
+ * Notes: Used the main MerkelMain class from the initial program given
+ * This is then used as the baseline to update the class to allow the
+ * use of the new weather statistical functions and print methods
+*/
+
 #pragma once
 
 #include "Candlestick.h"
@@ -22,8 +30,14 @@ private:
   void printMenu();
   /** Shows help information */
   void printHelp();
-  /** Displays current market statistics */
-  void printMarketStats();
+
+
+  /**
+   * ================================
+   * Code written by Jacques Thurling
+   * ================================
+  */
+
   /** Shows weather-related statistics */
   void printWeatherStats();
   /** Displays market predictions */
@@ -52,4 +66,8 @@ private:
 
   /** Weather data object initialized with weather.csv file */
   Weather weather{"weather.csv"};
+
+  /**
+   * ================================
+  */
 };

@@ -1,3 +1,15 @@
+/**
+ * Author: Jacques Thurling
+ * Date: 2024-23-12
+ * Notes: All code written without assistance
+*/
+
+/**
+ * ================================
+ * Code written by Jacques Thurling
+ * ================================
+*/
+
 #pragma once
 
 #include "Candlestick.h"
@@ -37,3 +49,8 @@ public:
   // Learning rate for gradient descent optimization
   double learningRate = 0.01;
 };
+/**
+ * ================================
+*/
+
+

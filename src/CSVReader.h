@@ -1,4 +1,10 @@
-#pragma once
+/**
+ * Author: Jacques Thurling
+ * Date: 2024-23-12
+ * Notes: Used the main CSVReader from the original MerkelMain project given for us to use
+ * and updated it using the new WeatherEntry object instead of the OrderBookEntry
+*/
+
 
 #include <string>
 #include <vector>
@@ -20,9 +26,22 @@ public:
   static std::vector<std::string> tokenise(std::string csvLine, char separator);
 
 private:
+
+  /**
+   * ================================
+   * Code written by Jacques Thurling
+   * ================================
+  */
+
   static std::vector<WeatherEntry>
 
   // Static method to convert a vector of strings to a vector of WeatherEntry
   // objects
   stringsToWE(std::vector<std::string> strings);
+
+  /**
+   * ================================
+  */
 };
+
+
