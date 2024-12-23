@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 
+// Enumeration for European country/region codes
 enum class WeatherEntryType {
   AT,
   BE,
@@ -33,17 +34,23 @@ enum class WeatherEntryType {
   SK
 };
 
+// Class representing a single weather data entry
 class WeatherEntry {
-  public:
-    WeatherEntry(double temp, std::string timeframe, WeatherEntryType region);
+public:
+  // Constructor to initialize a weather entry with temperature, timeframe and
+  // region
+  WeatherEntry(double temp, std::string timeframe, WeatherEntryType region);
 
-    static WeatherEntryType mapFromTokenToRegion(int index);
+  // Maps numeric index to corresponding region enum
+  static WeatherEntryType mapFromTokenToRegion(int index);
 
-    static WeatherEntryType mapFromInputToRegion(std::string input);
+  // Maps string input to corresponding region enum
+  static WeatherEntryType mapFromInputToRegion(std::string input);
 
-    double temp;
-    std::string timeframe;
-    WeatherEntryType region;
+  double temp;
+  std::string timeframe;
+  WeatherEntryType region;
 
-    static const std::map<std::string, WeatherEntryType> weatherRegionMap;
+  // Static map to convert string representations to region enums
+  static const std::map<std::string, WeatherEntryType> weatherRegionMap;
 };

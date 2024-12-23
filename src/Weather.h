@@ -5,30 +5,35 @@
 #include <variant>
 #include <vector>
 
-enum WeatherFilterOptions {
-  yearly,
-  monthly
-};
+// Enumeration for weather data filtering options
+enum WeatherFilterOptions { yearly, monthly };
 
-class Weather{
-  public:
-    Weather(std::string filename);
+class Weather {
+public:
+  // Constructor that takes a filename containing weather data
+  Weather(std::string filename);
 
-    /** Gets the weather entries for a region based on the filters */
-    std::variant<std::vector<WeatherEntry>,
-                 std::vector<std::vector<WeatherEntry>>>
-    getWeatherEntries(WeatherEntryType region, std::string timestamp,
-                      WeatherFilterOptions timeframe = yearly);
+  /** Gets the weather entries for a region based on the filters
+   * Returns either a vector of entries or a vector of vector of entries
+   * depending on the timeframe selected
+   */
+  std::variant<std::vector<WeatherEntry>,
+               std::vector<std::vector<WeatherEntry>>>
+  getWeatherEntries(WeatherEntryType region, std::string timestamp,
+                    WeatherFilterOptions timeframe = yearly);
 
-    std::string getEarliestTime();
+  // Returns the earliest timestamp in the dataset
+  std::string getEarliestTime();
 
-    std::string goToNextTimeFrame(std::string currentTime);
+  // Advances to the next time period from the current timestamp
+  std::string goToNextTimeFrame(std::string currentTime);
 
-    static double getHighestTemp(std::vector<WeatherEntry>& currentTimeEntries);
-    static double getLowestTemp(std::vector<WeatherEntry>& currentTimeEntries);
-    static double getClosingTemp(std::vector<WeatherEntry>& currentTimeEntries);
-    static double getOpeningTemp(std::vector<WeatherEntry>& previousTimeEntries);
+  // Static utility functions for temperature calculations
+  static double getHighestTemp(std::vector<WeatherEntry> &currentTimeEntries);
+  static double getLowestTemp(std::vector<WeatherEntry> &currentTimeEntries);
+  static double getClosingTemp(std::vector<WeatherEntry> &currentTimeEntries);
+  static double getOpeningTemp(std::vector<WeatherEntry> &previousTimeEntries);
 
-  private:
-    std::vector<WeatherEntry> entryPoints;
+private:
+  std::vector<WeatherEntry> entryPoints;
 };
