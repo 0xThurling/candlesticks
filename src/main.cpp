@@ -1,8 +1,12 @@
 #include "MerkelMain.h"
 
-int main()
-{   
-    MerkelMain app{};
-    app.init();
-    
+/**
+ * Main entry point for the weather analysis application
+ * @return 0 on successful execution
+ */
+int main() {
+  // Create instance of the main application class
+  MerkelMain app{};
+  // Initialize and start the application
+  app.init();
 }
