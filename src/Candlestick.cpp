@@ -37,6 +37,8 @@ void Candlestick::printCandleStickChart(
   // Temperature tolerance for drawing candlesticks
   int tolerance = 3;
 
+  std::cout << "                                                            Monthly Temperatures" << std::endl;
+
   // Iterate through each row of the chart
   for (int i = 0; i < height; i++) {
     // Map row index to temperature values
