@@ -27,7 +27,7 @@ void Candlestick::printCandleStickChart(
   // Chart height in characters
   unsigned int height = 25;
   // Chart width in characters
-  unsigned int width = 90;
+  unsigned int width = 130;
 
   // Initial temperature values for y-axis
   int temp = 50;
@@ -129,6 +129,16 @@ void Candlestick::printCandleStickChart(
     }
     std::cout << std::endl;
   }
+
+  std::cout << "     ";
+  for (int i = 0; i < 12; i++) {
+    if (i + 1 > 9) {
+      std::cout << "        " << (i + 1);
+    } else {
+      std::cout << "         " << (i + 1);
+    }
+  }
+  std::cout << std::endl;
 }
 
 // Set the colour for the chart
