@@ -72,6 +72,7 @@ void Candlestick::printCandleStickChart(
         }
       } else {
         if (j % 10 == 0) {
+          
           Candlestick candlestick = candlesticks[(j / 10) - 1];
 
           // Draw candlestick components based on temperature relationships
@@ -79,6 +80,7 @@ void Candlestick::printCandleStickChart(
             // No variation in temperatures
             std::cout << " ";
           } else if (candlestick.openingTemp < candlestick.closingTemp) {
+            SetColour(32);
             // Bullish candlestick (closing > opening)
             if (temp < candlestick.highestTemp &&
                 temp > candlestick.closingTemp + tolerance) {
@@ -96,7 +98,11 @@ void Candlestick::printCandleStickChart(
             } else {
               std::cout << " ";
             }
+
+            ResetColour();
           } else if (candlestick.closingTemp < candlestick.openingTemp) {
+            SetColour(31);
+
             // Bearish candlestick (closing < opening)
             if (temp < candlestick.highestTemp &&
                 temp > candlestick.openingTemp) {
@@ -110,6 +116,8 @@ void Candlestick::printCandleStickChart(
             } else {
               std::cout << " ";
             }
+
+            ResetColour();
           } else {
             std::cout << " ";
           }
@@ -121,6 +129,16 @@ void Candlestick::printCandleStickChart(
     }
     std::cout << std::endl;
   }
+}
+
+// Set the colour for the chart
+void Candlestick::SetColour(int textColor) {
+    std::cout << "\033[" << textColor << "m";
+}
+
+// Resets the terminal colour
+void Candlestick::ResetColour() {
+    std::cout << "\033[0m";
 }
 
 // Maps a y-coordinate index to a temperature value

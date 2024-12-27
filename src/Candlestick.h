@@ -24,6 +24,9 @@ private:
   // Maps a Y-coordinate from an index. This is a static helper function.
   static double mapYCoordFromIndex(int index);
 
+  static void SetColour(int textColour);
+
+  static void ResetColour();
 public:
   // Constructor to initialize a Candlestick object with the given temperatures.
   Candlestick(double openingTemp, double closingTemp, double highestTemp,

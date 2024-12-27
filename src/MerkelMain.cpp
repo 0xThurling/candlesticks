@@ -16,6 +16,7 @@
 #include <iomanip>
 #include <ios>
 #include <iostream>
+#include <iterator>
 #include <ostream>
 #include <string>
 #include <vector>
@@ -35,6 +36,39 @@ MerkelMain::MerkelMain() {}
 void MerkelMain::init() {
   // Variable to store user's menu selection
   int input;
+
+  // Intro image
+  std::string text_image = R"(
+              .
+                        
+              |					
+     .               /				
+      \       I     				
+                  /
+        \  ,g88R_
+          d888(`  ).                   _
+ -  --==  888(     ).=--           .+(`  )`.
+)         Y8P(       '`.          :(   .    )
+        .+(`(      .   )     .--  `.  (    ) )
+       ((    (..__.:'-'   .=(   )   ` _`  ) )
+`.     `(       ) )       (   .  )     (   )  ._
+  )      ` __.:'   )     (   (   ))     `-'.:(`  )
+)  )  ( )       --'       `- __.'         :(      ))
+.-'  (_.'          .')                    `(    )  ))
+                  (_  )                     ` __.:'
+                                          
+--..,___.--,--'`,---..-.--+--.,,-,,..._.--..-._.-a:f--.
+
+ __      __                   __    __                     __                                __                            
+/\ \  __/\ \                 /\ \__/\ \                   /\ \             /'\_/`\          /\ \__  __           
+\ \ \/\ \ \ \     __     __  \ \ ,_\ \ \___      __   _ __\ \/    ___     /\      \     __  \ \ ,_\/\_\    ___   
+ \ \ \ \ \ \ \  /'__`\ /'__`\ \ \ \/\ \  _ `\  /'__`\/\`'__\/    / __`\   \ \ \__\ \  /'__`\ \ \ \/\/\ \  /'___\ 
+  \ \ \_/ \_\ \/\  __//\ \L\.\_\ \ \_\ \ \ \ \/\  __/\ \ \/     /\ \L\ \   \ \ \_/\ \/\ \L\.\_\ \ \_\ \ \/\ \__/ 
+   \ `\___x___/\ \____\ \__/.\_\\ \__\\ \_\ \_\ \____\\ \_\     \ \____/    \ \_\\ \_\ \__/.\_\\ \__\\ \_\ \____\
+    '\/__//__/  \/____/\/__/\/_/ \/__/ \/_/\/_/\/____/ \/_/      \/___/      \/_/ \/_/\/__/\/_/ \/__/ \/_/\/____/
+  )";
+
+  std::cout << text_image << std::endl;
 
   // Set the initial time to the earliest available time in weather data
   currentTime = weather.getEarliestTime();

@@ -436,8 +436,11 @@ std::vector<WeatherEntry> CSVReader::readCSV(std::string csvFilename) {
   // String to store each line of the CSV file
   std::string line;
   // Log Message
-  std::cout << "Loading file data" << std::endl;
 
+  std::cout << "=====================" << std::endl;
+  std::cout << " Loading file data" << std::endl;
+  std::cout << "=====================" << std::endl;
+  
   // Check if the file is open
   if (csvFile.is_open()) {
     // Read each line of the file
