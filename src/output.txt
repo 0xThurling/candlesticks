@@ -30,7 +30,8 @@ private:
   /**
    * ===================================================
    * Code written by Jacques Thurling
-   * ===================================================
+   * Relevant to TASK 1, TASK 2, TASK 3 & TASK 4
+   * ==================================================
   */
 
   static std::vector<WeatherEntry>
@@ -56,6 +57,7 @@ private:
 /**
  * ====================================================
  * Code written by Jacques Thurling
+ * Relevant to TASK 2
  * ====================================================
 */
 
@@ -73,6 +75,9 @@ private:
   // Maps a Y-coordinate from an index. This is a static helper function.
   static double mapYCoordFromIndex(int index);
 
+  static void SetColour(int textColour);
+
+  static void ResetColour();
 public:
   // Constructor to initialize a Candlestick object with the given temperatures.
   Candlestick(double openingTemp, double closingTemp, double highestTemp,
@@ -105,6 +110,7 @@ public:
 /**
  * ===================================================
  * Code written by Jacques Thurling
+ * Relevant to TASK 1, TASK 2, TASK 3 & TASK 4
  * ===================================================
 */
 
@@ -177,6 +183,7 @@ private:
   /**
    * =================================================
    * Code written by Jacques Thurling
+   * Relevant to TASK 1, TASK 2, TASK 3 & TASK 4
    * =================================================
   */
 
@@ -227,6 +234,7 @@ private:
 /**
  * ===============================================
  * Code written by Jacques Thurling
+ * Relevant to TASK 4
  * ===============================================
 */
 
@@ -285,6 +293,7 @@ public:
 /**
  * ===============================================
  * Code written by Jacques Thurling
+ * Relevant to TASK 1, TASK 2, TASK 3 & TASK 4
  * ===============================================
 */
 
@@ -343,6 +352,7 @@ private:
 /**
  * ==========================================
  * Code written by Jacques Thurling
+ * Relevant to TASK 1, TASK 2, TASK 3 & TASK 4
  * ==========================================
 */
 
@@ -436,11 +446,10 @@ std::vector<WeatherEntry> CSVReader::readCSV(std::string csvFilename) {
   // String to store each line of the CSV file
   std::string line;
   // Log Message
-
   std::cout << "=====================" << std::endl;
   std::cout << " Loading file data" << std::endl;
   std::cout << "=====================" << std::endl;
-  
+
   // Check if the file is open
   if (csvFile.is_open()) {
     // Read each line of the file
@@ -501,6 +510,7 @@ std::vector<std::string> CSVReader::tokenise(std::string csvLine,
 /**
 * ================================================
 * Code written by Jacques Thurling
+* Relevant to TASK 1
 * ================================================
 */
 
@@ -548,6 +558,7 @@ CSVReader::stringsToWE(std::vector<std::string> strings) {
 /**
  * ============================================
  * Code written by Jacques Thurling
+ * Relevant to TASK 2
  * ============================================
 */
 
@@ -568,7 +579,7 @@ void Candlestick::printCandleStickChart(
   // Chart height in characters
   unsigned int height = 25;
   // Chart width in characters
-  unsigned int width = 90;
+  unsigned int width = 130;
 
   // Initial temperature values for y-axis
   int temp = 50;
@@ -577,6 +588,8 @@ void Candlestick::printCandleStickChart(
 
   // Temperature tolerance for drawing candlesticks
   int tolerance = 3;
+
+  std::cout << "                                                            Monthly Temperatures" << std::endl;
 
   // Iterate through each row of the chart
   for (int i = 0; i < height; i++) {
@@ -613,6 +626,7 @@ void Candlestick::printCandleStickChart(
         }
       } else {
         if (j % 10 == 0) {
+          
           Candlestick candlestick = candlesticks[(j / 10) - 1];
 
           // Draw candlestick components based on temperature relationships
@@ -620,6 +634,7 @@ void Candlestick::printCandleStickChart(
             // No variation in temperatures
             std::cout << " ";
           } else if (candlestick.openingTemp < candlestick.closingTemp) {
+            SetColour(32);
             // Bullish candlestick (closing > opening)
             if (temp < candlestick.highestTemp &&
                 temp > candlestick.closingTemp + tolerance) {
@@ -637,7 +652,11 @@ void Candlestick::printCandleStickChart(
             } else {
               std::cout << " ";
             }
+
+            ResetColour();
           } else if (candlestick.closingTemp < candlestick.openingTemp) {
+            SetColour(31);
+
             // Bearish candlestick (closing < opening)
             if (temp < candlestick.highestTemp &&
                 temp > candlestick.openingTemp) {
@@ -651,6 +670,8 @@ void Candlestick::printCandleStickChart(
             } else {
               std::cout << " ";
             }
+
+            ResetColour();
           } else {
             std::cout << " ";
           }
@@ -662,6 +683,26 @@ void Candlestick::printCandleStickChart(
     }
     std::cout << std::endl;
   }
+
+  std::cout << "     ";
+  for (int i = 0; i < 12; i++) {
+    if (i + 1 > 9) {
+      std::cout << "        " << (i + 1);
+    } else {
+      std::cout << "         " << (i + 1);
+    }
+  }
+  std::cout << std::endl;
+}
+
+// Set the colour for the chart
+void Candlestick::SetColour(int textColor) {
+    std::cout << "\033[" << textColor << "m";
+}
+
+// Resets the terminal colour
+void Candlestick::ResetColour() {
+    std::cout << "\033[0m";
 }
 
 // Maps a y-coordinate index to a temperature value
@@ -683,10 +724,12 @@ double Candlestick::mapYCoordFromIndex(int index) {
 /**
  * ===============================================
  * Code written by Jacques Thurling
+ * Relevant to TASK 3 & TASK 4
  * ===============================================
 */
 
 #include "ChartRenderer.h"
+#include "MerkelMain.h"
 #include "Weather.h"
 #include "WeatherEntry.h"
 #include <cmath>
@@ -701,8 +744,7 @@ double Candlestick::mapYCoordFromIndex(int index) {
 ChartRenderer::ChartRenderer() {}
 
 // Prints a line graph visualization of weather data
-void ChartRenderer::printGraph(
-    std::vector<std::vector<WeatherEntry>> yearly_entries) {
+void ChartRenderer::printGraph(std::vector<std::vector<WeatherEntry>> yearly_entries) {
   std::vector<WeatherEntry> data_to_render;
 
   // Use more memory for rendering - keep data separate
@@ -721,18 +763,20 @@ void ChartRenderer::printGraph(
 
   // Set chart dimensions
   unsigned int height = 25;
-  unsigned int width = 90;
-
-  std::cout << data_to_render.size() << std::endl;
+  unsigned int width = data_to_render.size() * 10 + 9;
 
   // Debug output - print data size and temperatures
   for (int i = 0; i < data_to_render.size(); i++) {
-    std::cout << data_to_render[i].temp << std::endl;
+    auto tokens = CSVReader::tokenise(data_to_render[i].timeframe,'-');
+
+    std::cout << "Temperature prediciton for " << tokens[0] << ": " << data_to_render[i].temp << std::endl;
   }
 
   std::cout << std::endl;
 
   double temp = 50;
+
+  std::cout << "                           Yearly Temperatures" << std::endl;
 
   // Iterate through each row of the chart
   for (int i = 0; i < height; i++) {
@@ -794,6 +838,12 @@ void ChartRenderer::printGraph(
     }
     std::cout << std::endl;
   }
+
+  std::cout << "         ";
+  for (int i = 1; i < data_to_render.size(); i++) {
+    std::cout << "      " << (CSVReader::tokenise(data_to_render[i].timeframe, '-')[0]);
+  }
+  std::cout << std::endl;
 }
 
 // Maps y-coordinate index to temperature value
@@ -828,10 +878,12 @@ double ChartRenderer::linearSpace(double y1, double y2, double i) {
 #include "Prediction.h"
 #include "Weather.h"
 #include "WeatherEntry.h"
+#include <algorithm>
 #include <exception>
 #include <iomanip>
 #include <ios>
 #include <iostream>
+#include <iterator>
 #include <ostream>
 #include <string>
 #include <vector>
@@ -851,6 +903,39 @@ MerkelMain::MerkelMain() {}
 void MerkelMain::init() {
   // Variable to store user's menu selection
   int input;
+
+  // Intro image
+  std::string text_image = R"(
+              .
+                        
+              |					
+     .               /				
+      \       I     				
+                  /
+        \  ,g88R_
+          d888(`  ).                   _
+ -  --==  888(     ).=--           .+(`  )`.
+)         Y8P(       '`.          :(   .    )
+        .+(`(      .   )     .--  `.  (    ) )
+       ((    (..__.:'-'   .=(   )   ` _`  ) )
+`.     `(       ) )       (   .  )     (   )  ._
+  )      ` __.:'   )     (   (   ))     `-'.:(`  )
+)  )  ( )       --'       `- __.'         :(      ))
+.-'  (_.'          .')                    `(    )  ))
+                  (_  )                     ` __.:'
+                                          
+--..,___.--,--'`,---..-.--+--.,,-,,..._.--..-._.-a:f--.
+
+ __      __                   __    __                     __                                __                            
+/\ \  __/\ \                 /\ \__/\ \                   /\ \             /'\_/`\          /\ \__  __           
+\ \ \/\ \ \ \     __     __  \ \ ,_\ \ \___      __   _ __\ \/    ___     /\      \     __  \ \ ,_\/\_\    ___   
+ \ \ \ \ \ \ \  /'__`\ /'__`\ \ \ \/\ \  _ `\  /'__`\/\`'__\/    / __`\   \ \ \__\ \  /'__`\ \ \ \/\/\ \  /'___\ 
+  \ \ \_/ \_\ \/\  __//\ \L\.\_\ \ \_\ \ \ \ \/\  __/\ \ \/     /\ \L\ \   \ \ \_/\ \/\ \L\.\_\ \ \_\ \ \/\ \__/ 
+   \ `\___x___/\ \____\ \__/.\_\\ \__\\ \_\ \_\ \____\\ \_\     \ \____/    \ \_\\ \_\ \__/.\_\\ \__\\ \_\ \____\
+    '\/__//__/  \/____/\/__/\/_/ \/__/ \/_/\/_/\/____/ \/_/      \/___/      \/_/ \/_/\/__/\/_/ \/__/ \/_/\/____/
+  )";
+
+  std::cout << text_image << std::endl;
 
   // Set the initial time to the earliest available time in weather data
   currentTime = weather.getEarliestTime();
@@ -896,6 +981,7 @@ void MerkelMain::printHelp() {
 /**
  * ==============================================
  * Code written by Jacques Thurling
+ * Relevant to TASK 1, TASK 2, TASK 3 & TASK 4
  * ==============================================
 */
 
@@ -1040,8 +1126,11 @@ void MerkelMain::printPrediction() {
   try {
     // Convert input string to region enum
     WeatherEntryType region = WeatherEntry::mapFromInputToRegion(tokens[0]);
-
-    std::cout << "Making Predictions" << std::endl;
+    
+    std::cout << "======================" << std::endl;
+    std::cout << "  Making Predictions" << std::endl;
+    std::cout << "======================" << std::endl;
+    std::cout << std::endl;
 
     // Set decimal precision for temperature output
     std::cout << std::fixed << std::setprecision(3);
@@ -1089,13 +1178,20 @@ void MerkelMain::printPrediction() {
   // Prepare data structure for visualization
   std::vector<std::vector<WeatherEntry>> chart;
 
+  // The last year before predictions
+  std::vector<WeatherEntry> final_year;
+  std::cout << data.size() << std::endl;
+  WeatherEntry final_year_entry {data.end()->closingTemp, std::to_string((year)) + "-01-01T00:00:00Z", WeatherEntry::mapFromInputToRegion(tokens[0])};
+  final_year.push_back(final_year_entry);
+  chart.push_back(final_year);
+
   // Convert forecast data to WeatherEntry format
   for (int i = 0; i < forecast.size(); i++) {
     std::vector<WeatherEntry> predictions;
 
     // Create WeatherEntry for each predicted temperature
     WeatherEntry prediction{forecast[i],
-                            std::to_string(year) + "-01-01T00:00:00Z",
+                            std::to_string((year + i + 1)) + "-01-01T00:00:00Z",
                             WeatherEntry::mapFromInputToRegion(tokens[0])};
 
     predictions.push_back(prediction);
@@ -1251,6 +1347,7 @@ void MerkelMain::processUserOption(int userOption) {
 /**
  * ===============================================
  * Code written by Jacques Thurling
+ * Relevant to TASK 4
  * ===============================================
 */
 
@@ -1379,6 +1476,7 @@ void Prediction::fit(int epochs) {
 /**
  * ===============================================
  * Code written by Jacques Thurling
+ * Relevant to TASK 1, TASK 2, TASK 3 & TASK 4
  * ===============================================
 */
 
@@ -1571,6 +1669,7 @@ double Weather::getLowestTemp(std::vector<WeatherEntry> &currentTimeEntries) {
 /**
  * ===============================================
  * Code written by Jacques Thurling
+ * Relevant to TASK 1, TASK 2, TASK 3 & TASK 4
  * ===============================================
 */
 
