@@ -58,6 +58,8 @@ void ChartRenderer::printGraph(std::vector<std::vector<WeatherEntry>> yearly_ent
 
   double temp = 50;
 
+  std::cout << "                           Yearly Temperatures" << std::endl;
+
   // Iterate through each row of the chart
   for (int i = 0; i < height; i++) {
 
@@ -120,7 +122,7 @@ void ChartRenderer::printGraph(std::vector<std::vector<WeatherEntry>> yearly_ent
   }
 
   std::cout << "         ";
-  for (int i = 0; i < data_to_render.size(); i++) {
+  for (int i = 1; i < data_to_render.size(); i++) {
     std::cout << "      " << (CSVReader::tokenise(data_to_render[i].timeframe, '-')[0]);
   }
   std::cout << std::endl;
