@@ -12,6 +12,7 @@
 #include "Prediction.h"
 #include "Weather.h"
 #include "WeatherEntry.h"
+#include <algorithm>
 #include <exception>
 #include <iomanip>
 #include <ios>
@@ -258,8 +259,11 @@ void MerkelMain::printPrediction() {
   try {
     // Convert input string to region enum
     WeatherEntryType region = WeatherEntry::mapFromInputToRegion(tokens[0]);
-
-    std::cout << "Making Predictions" << std::endl;
+    
+    std::cout << "======================" << std::endl;
+    std::cout << "  Making Predictions" << std::endl;
+    std::cout << "======================" << std::endl;
+    std::cout << std::endl;
 
     // Set decimal precision for temperature output
     std::cout << std::fixed << std::setprecision(3);
@@ -307,13 +311,20 @@ void MerkelMain::printPrediction() {
   // Prepare data structure for visualization
   std::vector<std::vector<WeatherEntry>> chart;
 
+  // The last year before predictions
+  std::vector<WeatherEntry> final_year;
+  std::cout << data.size() << std::endl;
+  WeatherEntry final_year_entry {data.end()->closingTemp, std::to_string((year)) + "-01-01T00:00:00Z", WeatherEntry::mapFromInputToRegion(tokens[0])};
+  final_year.push_back(final_year_entry);
+  chart.push_back(final_year);
+
   // Convert forecast data to WeatherEntry format
   for (int i = 0; i < forecast.size(); i++) {
     std::vector<WeatherEntry> predictions;
 
     // Create WeatherEntry for each predicted temperature
     WeatherEntry prediction{forecast[i],
-                            std::to_string(year) + "-01-01T00:00:00Z",
+                            std::to_string((year + i + 1)) + "-01-01T00:00:00Z",
                             WeatherEntry::mapFromInputToRegion(tokens[0])};
 
     predictions.push_back(prediction);

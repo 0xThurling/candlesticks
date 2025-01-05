@@ -11,6 +11,7 @@
 */
 
 #include "ChartRenderer.h"
+#include "MerkelMain.h"
 #include "Weather.h"
 #include "WeatherEntry.h"
 #include <cmath>
@@ -25,8 +26,7 @@
 ChartRenderer::ChartRenderer() {}
 
 // Prints a line graph visualization of weather data
-void ChartRenderer::printGraph(
-    std::vector<std::vector<WeatherEntry>> yearly_entries) {
+void ChartRenderer::printGraph(std::vector<std::vector<WeatherEntry>> yearly_entries) {
   std::vector<WeatherEntry> data_to_render;
 
   // Use more memory for rendering - keep data separate
@@ -45,13 +45,13 @@ void ChartRenderer::printGraph(
 
   // Set chart dimensions
   unsigned int height = 25;
-  unsigned int width = 90;
-
-  std::cout << data_to_render.size() << std::endl;
+  unsigned int width = data_to_render.size() * 10 + 9;
 
   // Debug output - print data size and temperatures
   for (int i = 0; i < data_to_render.size(); i++) {
-    std::cout << data_to_render[i].temp << std::endl;
+    auto tokens = CSVReader::tokenise(data_to_render[i].timeframe,'-');
+
+    std::cout << "Temperature prediciton for " << tokens[0] << ": " << data_to_render[i].temp << std::endl;
   }
 
   std::cout << std::endl;
@@ -118,6 +118,12 @@ void ChartRenderer::printGraph(
     }
     std::cout << std::endl;
   }
+
+  std::cout << "         ";
+  for (int i = 0; i < data_to_render.size(); i++) {
+    std::cout << "      " << (CSVReader::tokenise(data_to_render[i].timeframe, '-')[0]);
+  }
+  std::cout << std::endl;
 }
 
 // Maps y-coordinate index to temperature value
